@@ -4,8 +4,8 @@ const router = express.Router();
 import helpers from '../helpers.js'
 
 router
-  .route('/')
-  .get(async (req, res) => {
+  .route('/') 
+  .get(async (req, res) => { // getAllMovies
     try {
       const movies = await movieData.getAll()
       return res.status(200).json(movies);
@@ -13,7 +13,7 @@ router
       return res.status(500).json({ error: e.message });
     }
   })
-  .post(async (req, res) => {
+  .post(async (req, res) => { // createMovie
     const data = req.body;
     if (!data || Object.keys(data).length === 0) {
       return res
@@ -48,14 +48,14 @@ router
 
 router
   .route('/:movieId')
-  .get(async (req, res) => {
+  .get(async (req, res) => { // getMovieById
     try {
-      req.params.eventId = helpers.checkId(req.params.eventId);
+      req.params.movieId = helpers.checkId(req.params.movieId);
     } catch (e) {
       return res.status(400).json({ error: e });
     }
     try {
-      const event = await eventData.get(req.params.eventId)
+      const event = await movieData.get(req.params.movieId)
       return res.status(200).json(event);
     } catch (e) {
       if (e == "No dog with that id") {
@@ -65,15 +65,15 @@ router
       }
     }
   })
-  .delete(async (req, res) => {
+  .delete(async (req, res) => { // removeMovieById
     try {
-      req.params.eventId = helpers.checkId(req.params.eventId);
+      req.params.movieId = helpers.checkId(req.params.movieId);
     } catch (e) {
       return res.status(400).json({ error: e });
     }
 
     try {
-      const event = await eventData.remove(req.params.eventId)
+      const event = await movieData.remove(req.params.movieId)
       return res.status(200).json(event);
     } catch (e) {
       if (e == "No dog with that id") {
@@ -83,7 +83,7 @@ router
       }
     }
   })
-  .put(async (req, res) => {
+  .put(async (req, res) => { // updateMovieById
     const data = req.body;
     if (!data || Object.keys(data).length === 0) {
       return res
@@ -120,5 +120,27 @@ router
       }
     }
   });
+
+router
+  .route('/:movieId/reviews') 
+  .get(async (req, res) => { // getAllReviewsByMovieId
+    try {
+      req.params.movieId = helpers.checkId(req.params.movieId);
+    } catch (e) {
+      return res.status(400).json({ error: e });
+    }
+
+    try {
+      const event = await movieData.getAllReviewsByMovieId(req.params.movieId)
+      return res.status(200).json(event);
+    } catch (e) {
+      if (e == "No dog with that id") {
+        return res.status(404).json({ error: e });
+      } else {
+        return res.status(400).json({ error: e });
+      }
+    }
+  })
+  
 
 export default router;
