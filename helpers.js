@@ -163,4 +163,14 @@ const helperMethods = {
     }
 }
 
+const checkId = (id) => {
+    if (!id) throw `Error: You must provide a id`;
+    if (typeof id !== 'string') throw `Error:Id must be a string`;
+    id = id.trim();
+    if (id.length === 0)
+        throw `Error: Id cannot be an empty string or just spaces`;
+    if (!ObjectId.isValid(id)) throw `Error: Id invalid object ID`;
+    return id;
+}
+
 export default helperMethods
