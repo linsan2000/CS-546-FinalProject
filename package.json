@@ -1,0 +1,22 @@
+{
+  "name": "cs-546-finalproject",
+  "version": "1.0.0",
+  "description": "Final Project for CS-546: Web Programming",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/linsan2000/CS-546-FinalProject.git"
+  },
+  "author": "Wen Lin,Jiexin Jin,Qisheng Xia,Hai Yuan,Zhen Zhang",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/linsan2000/CS-546-FinalProject/issues"
+  },
+  "homepage": "https://github.com/linsan2000/CS-546-FinalProject#readme",
+  "dependencies": {
+    "mongodb": "^6.2.0"
+  }
+}
