@@ -4,7 +4,7 @@ const router = express.Router();
 import helpers from '../helpers.js'
 
 router
-  .route('/:eventId')
+  .route('/login')
   .get(async (req, res) => {
     //code here for GET
   })
