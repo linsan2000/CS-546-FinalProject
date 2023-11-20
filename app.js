@@ -15,20 +15,23 @@ app.use(
     })
 );
 
-app.use('/private', (req, res, next) => {
-    console.log(req.session.id);
+app.use('/users', (req, res, next) => {
+    console.log("[express-session]: current session ID:"+req.session.id);
+    // if there is no session ID, turn to login page
     if (!req.session.user) {
-        return res.redirect('/');
+        return res.redirect('/login');
     } else {
         next();
     }
 });
 
 app.use('/login', (req, res, next) => {
+    console.log("[express-session]: current session ID:"+req.session.id);
+    // if there is already a session ID, turn to users page
     if (req.session.user) {
-        return res.redirect('/private');
+        return res.redirect('/users');
     } else {
-        //here I',m just manually setting the req.method to post since it's usually coming from a form
+        // just manually setting the req.method to POST, since it's usually coming from a form
         req.method = 'POST';
         next();
     }

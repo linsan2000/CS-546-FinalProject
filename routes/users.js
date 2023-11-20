@@ -11,12 +11,3 @@ router
   .post(async (req, res) => {
     //code here for POST
   });
-
-router
-  .route('/attendee/:attendeeId')
-  .get(async (req, res) => {
-    //code here for GET
-  })
-  .delete(async (req, res) => {
-    //code here for DELETE
-  });
