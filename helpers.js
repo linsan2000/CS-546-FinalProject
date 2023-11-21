@@ -113,6 +113,26 @@ const helperMethods = {
             isAdminValid: isAdmin
         }
     },
+    getValidLogin(emailAddress, password) {
+        if (!this.isAllExist([emailAddress, password])) {
+            throw 'emailAddress and password are required'
+        }
+        if (!this.isParamsStringAndNotJustEmptySpaces([emailAddress, password])) {
+            throw 'emailAddress and password must be strings'
+        }
+        if (!this.isValidEmailAddress(email)) {
+            throw "email is not valid"
+        }
+        if (!this.isValidPassword(password)) {
+            throw "password is not valid"
+        }
+        emailAddress = emailAddress.toLowerCase().trim()
+        password = password.trim()
+        return {
+            emailAddressValid: emailAddress,
+            passwordValid: password
+        }
+    },
     isAllExist(args) {
         for (let arg of args) {
             if (arg == null || arg == undefined) {

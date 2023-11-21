@@ -2,10 +2,12 @@ import helperMethods from "../helpers.js"
 import { users } from '../config/mongoCollections.js'
 import { reviewsData } from "./index.js"
 import { ObjectId } from 'mongodb'
+import bcrypt from 'bcrypt';
 
+const saltRounds = 16;
 const usersCollection = await users()
 
-const createUser = async (
+const registerUser = async (
   username,
   password,
   email,
@@ -28,6 +30,8 @@ const createUser = async (
   if (!usersCollection) {
     throw 'usersCollection can not be created'
   }
+  const hash = await bcrypt.hash(newUser.password, saltRounds);
+  newUser.password = hash;
   const insertInfo = await usersCollection.insertOne(newUser)
   if (!insertInfo.acknowledged || !insertInfo.insertedId) {
     throw 'Could not add user'
@@ -39,7 +43,7 @@ const createUser = async (
 }
 
 const getAllUsers = async () => {
-  let userList = await usersCollection.find({}).toArray()
+  let userList = await usersCollection.find({}, { projection: { _id: 1, username: 1, email: 1, isAdmin: 1 } }).toArray()
 
   if (!userList) {
     throw 'Could not get all users'
@@ -50,7 +54,7 @@ const getAllUsers = async () => {
 
 const getUserById = async (userId) => {
   userId = helperMethods.getValidId(userId)
-  const user = await usersCollection.findOne({ _id: new ObjectId(userId) })
+  const user = await usersCollection.findOne({ _id: new ObjectId(userId) }, { projection: { _id: 1, username: 1, email: 1, isAdmin: 1 } })
   if (user === null) {
     throw 'No user with that userId'
   }
@@ -101,6 +105,8 @@ const updateUserById = async (
     email: emailValid,
     isAdmin: isAdminValid,
   }
+  const hash = await bcrypt.hash(updateUser.password, saltRounds);
+  updateUser.password = hash;
   let res = await usersCollection.updateOne({ _id: new ObjectId(userId) }, {
     $set: updateUser
   })
@@ -108,4 +114,28 @@ const updateUserById = async (
   return await usersCollection.findOne({ _id: new ObjectId(userId) })
 }
 
-export { createUser, getAllUsers, getUserById, removeUserById, updateUserById }
+const login = async (emailAddress, password) => {
+  let {
+    emailAddressValid, passwordValid,
+  } = helperMethods.getValidLogin(
+    emailAddress,
+    password,
+  )
+  const user = await usersCollection.findOne({ emailAddress: emailAddressValid })
+  if (!user) {
+    throw 'Either the email address or password is invalid'
+  }
+  const match = await bcrypt.compare(passwordValid, user.password);
+  if (!match) {
+    throw 'Either the email address or password is invalid'
+  }
+
+  return {
+    _id: user._id.toString(),
+    username: user.username,
+    email: user.email,
+    isAdmin: user.isAdmin
+  }
+}
+
+export { registerUser, getAllUsers, getUserById, removeUserById, updateUserById, login }
