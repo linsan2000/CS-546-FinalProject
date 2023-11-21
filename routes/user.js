@@ -4,10 +4,8 @@ const router = express.Router();
 import helpers from '../helpers.js'
 
 router
-  .route('/login')
+  .route('/')
   .get(async (req, res) => {
     //code here for GET
-  })
-  .post(async (req, res) => {
-    //code here for POST
+    res.render('user',{user: req.session.user, title:"Account Detail"});
   });

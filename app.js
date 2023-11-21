@@ -15,9 +15,8 @@ app.use(
     })
 );
 
-app.use('/users', (req, res, next) => {
+app.use('/user', (req, res, next) => {
     console.log("[express-session]: current session ID:"+req.session.id);
-    // if there is no session ID, turn to login page
     if (!req.session.user) {
         return res.redirect('/login');
     } else {
@@ -27,12 +26,18 @@ app.use('/users', (req, res, next) => {
 
 app.use('/login', (req, res, next) => {
     console.log("[express-session]: current session ID:"+req.session.id);
+    if (req.session.user) {
+        return res.redirect('/user');
+    } else {
+        next();
+    }
+});
+app.use('/register', (req, res, next) => {
+    console.log("[express-session]: current session ID:"+req.session.id);
     // if there is already a session ID, turn to users page
     if (req.session.user) {
-        return res.redirect('/users');
+        return res.redirect('/user');
     } else {
-        // just manually setting the req.method to POST, since it's usually coming from a form
-        req.method = 'POST';
         next();
     }
 });
@@ -58,6 +63,12 @@ app.use('/public', staticDir);
 // });
 // app.engine('handlebars', handlebarsInstance.engine);
 // app.set('view engine', 'handlebars');
+
+const handlebarsInstance = exphbs.create({
+    defaultLayout: 'main'
+  });
+  app.engine('handlebars', handlebarsInstance.engine);
+  app.set('view engine', 'handlebars');
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
