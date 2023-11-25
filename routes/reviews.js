@@ -1,4 +1,4 @@
-import { reviewData } from '../data/reviews.js'
+import { createReview, getAllReviewsByMovieId, getAllReviewsByUserId, deleteAllReviewsByUserId, getReviewById, removeReviewById } from '../data/reviews.js'
 import express from 'express';
 const router = express.Router();
 import helpers from '../helpers.js'
@@ -71,3 +71,5 @@ router
       }
     }
   });
+
+export default router;

@@ -7,8 +7,8 @@ const reviewsCollection = await reviews()
 const createReview = async (movieId, userId, reviewTitle, reviewDate, review, rating) => {
   userId = helperMethods.getValidId(userId)
   movieId = helperMethods.getValidId(movieId)
-  const review = await reviewsCollection.find({ movieId: movieId, userId: userId }).toArray()
-  if (review.length !== 0) {
+  const movie = await reviewsCollection.find({ movieId: movieId, userId: userId }).toArray()
+  if (movie.length !== 0) {
     throw "review already exists with that movieId and userId"
   }
   let {
@@ -29,8 +29,8 @@ const createReview = async (movieId, userId, reviewTitle, reviewDate, review, ra
     throw 'Could not add review'
   }
   const newReviewId = insertInfo.insertedId.toString()
-  const review = await getReviewById(newReviewId)
-  return review
+  const res = await getReviewById(newReviewId)
+  return res
 };
 
 const getAllReviewsByMovieId = async (movieId) => {

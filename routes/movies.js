@@ -1,4 +1,4 @@
-import { movieData } from '../data/index.js'
+import { createMovie, getAllMovies, getMovieById, removeMovieById, updateMovieById } from '../data/movies.js'
 import express from 'express';
 const router = express.Router();
 import helpers from '../helpers.js'
