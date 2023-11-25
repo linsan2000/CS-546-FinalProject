@@ -17,7 +17,7 @@ const createMovie = async (
 ) => {
   let {
     titleValid, plotValid, MPA_FilmRatingsValid, studioValid, directorValid, dateReleasedValid, durationValid, overallRatingValid, imageUrlValid
-  } = helperMethods.getValidmovie(
+  } = helperMethods.getValidMovie(
     title,
     plot,
     MPA_FilmRatings,
@@ -56,7 +56,7 @@ const getAllMovies = async () => {
   let movieList = await moviesCollection.find({}).project({ _id: 1, title: 1, overallRating: 1, imageUrl: 1 }).toArray()
 
   if (!movieList) {
-    throw 'Could not get all movies'
+    throw 'Could not get all movies';
   }
 
   return movieList
@@ -66,7 +66,7 @@ const getMovieById = async (movieId) => {
   movieId = helperMethods.getValidId(movieId)
   const movie = await moviesCollection.findOne({ _id: new ObjectId(movieId) })
   if (movie === null) {
-    throw 'No movie with that movieId'
+    throw Object.assign(new Error('No movie with that movieId'), { name: '404' });
   }
   movie._id = movie._id.toString()
   return movie
@@ -103,11 +103,11 @@ const updateMovieById = async (
   movieId = helperMethods.getValidId(movieId)
   const movie = await moviesCollection.findOne({ _id: new ObjectId(movieId) })
   if (movie === null) {
-    throw 'No movie with that movieId'
+    throw Object.assign(new Error('No movie with that movieId'), { name: '404' });
   }
   let {
     titleValid, plotValid, MPA_FilmRatingsValid, studioValid, directorValid, dateReleasedValid, durationValid, overallRatingValid, imageUrlValid
-  } = helperMethods.getValidmovie(
+  } = helperMethods.getValidMovie(
     title,
     plot,
     MPA_FilmRatings,
