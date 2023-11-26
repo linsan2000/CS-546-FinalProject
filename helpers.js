@@ -120,7 +120,7 @@ const helperMethods = {
         if (!this.isParamsStringAndNotJustEmptySpaces([emailAddress, password])) {
             throw 'emailAddress and password must be strings'
         }
-        if (!this.isValidEmailAddress(email)) {
+        if (!this.isValidEmailAddress(emailAddress)) {
             throw "email is not valid"
         }
         if (!this.isValidPassword(password)) {
@@ -159,10 +159,12 @@ const helperMethods = {
         var pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%]{6,}$/;
 
         return pattern.test(password);
+        // return true
     },
     isValidEmailAddress(email) {
         let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
         return emailRegex.test(email)
+        // return true
     },
     getValidId(id) {
         if (!id) {

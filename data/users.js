@@ -56,7 +56,7 @@ const getUserById = async (userId) => {
   userId = helperMethods.getValidId(userId)
   const user = await usersCollection.findOne({ _id: new ObjectId(userId) }, { projection: { _id: 1, username: 1, email: 1, isAdmin: 1 } })
   if (user === null) {
-    throw 'No user with that userId'
+    throw Object.assign(new Error('No user with that userId'), { name: '404' });
   }
   user._id = user._id.toString()
   return user
@@ -89,7 +89,7 @@ const updateUserById = async (
   userId = helperMethods.getValidId(userId)
   const user = await usersCollection.findOne({ _id: new ObjectId(userId) })
   if (user === null) {
-    throw 'No user with that userId'
+    throw Object.assign(new Error('No user with that userId'), { name: '404' });
   }
   let {
     usernameValid, emailValid, isAdminValid, passwordValid,

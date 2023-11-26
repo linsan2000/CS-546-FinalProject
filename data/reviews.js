@@ -83,7 +83,7 @@ const removeReviewById = async (reviewId) => {
     _id: new ObjectId(reviewId)
   })
   if (!deletionInfo) {
-    throw `Could not delete review with reviewId of ${reviewId}`
+    throw Object.assign(new Error(`Could not delete review with reviewId of ${reviewId}`), { name: '404' });
   }
 
   return {

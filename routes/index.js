@@ -8,7 +8,7 @@ import registerRoutes from './register.js';
 const constructorMethod = (app) => {
   app.use('/movies', movieRoutes);
   app.use('/reviews', reviewRoutes);
-  app.use('/user', userRoutes);
+  app.use('/users', userRoutes);
   app.use('/login', loginRoutes);
   app.use('/logout', logoutRoutes);
   app.use('/register', registerRoutes);
