@@ -27,13 +27,8 @@ router
 router
   .route('/register')
   .post(async (req, res) => {   // registerUser
-  const data = req.body;
-  if (!data || Object.keys(data).length === 0) {
-    return res.status(400).json({ error: 'There are no fields in the request body' });
-  }
-
   try {
-    let { username, password, email, confirmPassword, isAdmin } = data
+    let { username, password, email, confirmPassword, isAdmin } = req.body;
     let { usernameValid, emailValid, isAdminValid, passwordValid,
     } = helpers.getValidUser(
       username,
@@ -82,13 +77,8 @@ router
     }
   })
   .put(async (req, res) => {  // updateUserById
-    const data = req.body;
-    if (!data || Object.keys(data).length === 0) {
-      return res.status(400).json({ error: 'There are no fields in the request body' });
-    }
-
     try {
-      let { username, password, email, isAdmin } = data
+      let { username, password, email, isAdmin } = req.body
       let { usernameValid, emailValid, isAdminValid, passwordValid,
       } = helpers.getValidUser(
         username,
@@ -110,13 +100,8 @@ router
 router
   .route('/login')
   .post(async (req, res) => {
-    const data = req.body;
-    if (!data || Object.keys(data).length === 0) {
-      return res.status(400).json({ error: 'There are no fields in the request body' });
-    }
-
     try {
-      let { emailAddress, password } = data
+      let { emailAddress, password } = req.body
       let {
         emailAddressValid, passwordValid,
       } = helpers.getValidLogin(
