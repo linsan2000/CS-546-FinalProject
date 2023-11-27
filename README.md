@@ -194,3 +194,6 @@ Within the 'Users' collection, the 'ReviewHistory’ subdocument includes all th
 | reviewImgUrl   | String   | The picture in the comment                 |
 | rating         | Double   | User rating for this movie                 |
 
+
+# APIs document
+https://www.postman.com/cs-546-finalproject/workspace/apis

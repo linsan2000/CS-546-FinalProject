@@ -33,10 +33,6 @@ router
 router
   .route('/:reviewId')
   .get(async (req, res) => { // getReviewById
-    const data = req.body;
-    if (!data || Object.keys(data).length === 0) {
-      return res.status(400).json({ error: 'There are no fields in the request body' });
-    }
     try {
       const event = await getReviewById(helpers.getValidId(req.params.reviewId))
       return res.status(200).json(event);
@@ -64,10 +60,6 @@ router
 router
   .route('/user/:userId')
   .get(async (req, res) => {  // getAllReviewsByUserId
-    const data = req.body;
-    if (!data || Object.keys(data).length === 0) {
-      return res.status(400).json({ error: 'There are no fields in the request body' });
-    }
     try {
       const event = await getAllReviewsByUserId(helpers.getValidId(req.params.userId))
       return res.status(200).json(event);

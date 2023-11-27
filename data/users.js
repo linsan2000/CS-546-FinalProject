@@ -121,7 +121,7 @@ const login = async (emailAddress, password) => {
     emailAddress,
     password,
   )
-  const user = await usersCollection.findOne({ emailAddress: emailAddressValid })
+  const user = await usersCollection.findOne({ email: emailAddressValid })
   if (!user) {
     throw 'Either the email address or password is invalid'
   }

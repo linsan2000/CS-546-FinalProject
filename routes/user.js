@@ -6,10 +6,6 @@ import helpers from '../helpers.js'
 router
   .route('/')
   .get(async (req, res) => {  // getAllUsers
-    const data = req.body;
-    if (!data || Object.keys(data).length === 0) {
-      return res.status(400).json({ error: 'There are no fields in the request body' });
-    }
     try {
       const event = await getAllUsers()
       return res.status(200).json(event);
@@ -99,7 +95,7 @@ router
 
 router
   .route('/login')
-  .post(async (req, res) => {
+  .post(async (req, res) => {  // login
     try {
       let { emailAddress, password } = req.body
       let {
