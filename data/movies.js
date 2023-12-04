@@ -55,10 +55,6 @@ const createMovie = async (
 const getAllMovies = async () => {
   let movieList = await moviesCollection.find({}).project({ _id: 1, title: 1, overallRating: 1, imageUrl: 1 }).toArray()
 
-  if (!movieList) {
-    throw 'Could not get all movies';
-  }
-
   return movieList
 }
 

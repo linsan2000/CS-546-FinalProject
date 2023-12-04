@@ -9,23 +9,23 @@ const usersCollection = await users()
 
 const registerUser = async (
   username,
+  emailAddress,
   password,
-  email,
-  isAdmin
+  role
 ) => {
   let {
-    usernameValid, emailValid, isAdminValid, passwordValid,
+    usernameValid, emailAddressValid, passwordValid, roleValid,
   } = helperMethods.getValidUser(
     username,
+    emailAddress,
     password,
-    email,
-    isAdmin
+    role
   )
   const newUser = {
     username: usernameValid,
+    emailAddress: emailAddressValid,
     password: passwordValid,
-    email: emailValid,
-    isAdmin: isAdminValid,
+    role: roleValid,
   }
   if (!usersCollection) {
     throw 'usersCollection can not be created'
@@ -116,14 +116,14 @@ const updateUserById = async (
   return await usersCollection.findOne({ _id: new ObjectId(userId) })
 }
 
-const login = async (emailAddress, password) => {
+const loginUser = async (emailAddress, password) => {
   let {
     emailAddressValid, passwordValid,
   } = helperMethods.getValidLogin(
     emailAddress,
     password,
   )
-  const user = await usersCollection.findOne({ email: emailAddressValid })
+  const user = await usersCollection.findOne({ emailAddress: emailAddressValid })
   if (!user) {
     throw 'Either the email address or password is invalid'
   }
@@ -134,9 +134,9 @@ const login = async (emailAddress, password) => {
 
   return {
     username: user.username,
-    email: user.email,
-    isAdmin: user.isAdmin
+    emailAddress: user.emailAddress,
+    role: user.role
   }
 }
 
-export { registerUser, getAllUsers, getUserById, removeUserById, updateUserById, login }
+export { registerUser, getAllUsers, getUserById, removeUserById, updateUserById, loginUser }

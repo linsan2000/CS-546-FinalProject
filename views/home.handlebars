@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Movie Database</title>
+</head>
+
+<body>
+    <h1>Welcome {{username}}, to Our Movie Database</h1>
+    <p>The time is now: {{currentTime}}.</p>
+    <p>Your role in the system is: {{role}}.</p>
+    <p><a href="/logout">Logout</a></p>
+    {{#if isAdmin}}
+    <p><a href="/movies">add movie</a></p>
+    {{/if}}
+    <ul class="movie_list">
+        {{#each movies}}
+        <li>{{this}}</li>
+        {{/each}}
+    </ul>
+    <form action="/search" method="get">
+        <input type="text" name="search" placeholder="Search for movies...">
+        <button type="submit">Search</button>
+    </form>
+    <!-- Movie recommendations can be listed here -->
+
+</body>
+
+</html>

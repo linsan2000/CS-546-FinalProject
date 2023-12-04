@@ -83,34 +83,35 @@ const helperMethods = {
             ratingValid: rating
         }
     },
-    getValidUser(username, password, email, isAdmin) {
+    getValidUser(username, emailAddress, password, role) {
         if (!this.isAllExist([
             username,
+            emailAddress,
             password,
-            email,
-            isAdmin])) {
+            role])) {
             throw "not all fields are provided"
         }
         if (!this.isValidUsername(username)) {
             throw "username is not valid"
         }
+        if (!this.isValidEmailAddress(emailAddress)) {
+            throw "emailAddress is not valid"
+        }
         if (!this.isValidPassword(password)) {
             throw "password is not valid"
         }
-        if (!this.isValidEmailAddress(email)) {
-            throw "email is not valid"
-        }
-        if (typeof isAdmin !== 'boolean') {
-            throw "isAdmin is not a boolean"
+        if (!this.isValidRole(role)) {
+            throw "role is not valid"
         }
         username = username.trim()
+        emailAddress = emailAddress.trim()
         password = password.trim()
-        email = email.trim()
+        role = role.toLowerCase().trim()
         return {
             usernameValid: username,
+            emailAddressValid: emailAddress,
             passwordValid: password,
-            emailValid: email,
-            isAdminValid: isAdmin
+            roleValid: role
         }
     },
     getValidLogin(emailAddress, password) {
@@ -165,10 +166,9 @@ const helperMethods = {
 
         return pattern.test(password)
     },
-    isValidEmailAddress(email) {
+    isValidEmailAddress(emailAddress) {
         let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
-        return emailRegex.test(email)
-        // return true
+        return emailRegex.test(emailAddress)
     },
     getValidId(id) {
         if (!id) {
@@ -186,7 +186,15 @@ const helperMethods = {
         }
 
         return id
-    }
+    },
+    isValidRole(role) {
+        role = role.toLowerCase()
+        if (role !== 'admin' && role !== 'user') {
+            return false
+        }
+
+        return true
+    },
 }
 
 export default helperMethods

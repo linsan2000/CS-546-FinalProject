@@ -1,20 +1,18 @@
-import movieRoutes from './movies.js';
-import reviewRoutes from './reviews.js';
-import userRoutes from './user.js';
 import loginRoutes from './login.js';
 import logoutRoutes from './logout.js';
 import registerRoutes from './register.js';
+import adminRoutes from './admin.js';
+import protectedRoutes from './protected.js';
 
 const constructorMethod = (app) => {
-  app.use('/movies', movieRoutes);
-  app.use('/reviews', reviewRoutes);
-  app.use('/users', userRoutes);
-  app.use('/login', loginRoutes);
-  app.use('/logout', logoutRoutes);
   app.use('/register', registerRoutes);
+  app.use('/login', loginRoutes);
+  app.use('/admin', adminRoutes);
+  app.use('/protected', protectedRoutes);
+  app.use('/logout', logoutRoutes);
 
   app.use('*', (req, res) => {
-    res.status(404).json({ error: 'Page Not found' });
+    res.redirect('/');
   });
 };
 

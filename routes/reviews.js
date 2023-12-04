@@ -1,7 +1,8 @@
 import { createReview, getAllReviewsByMovieId, getAllReviewsByUserId, deleteAllReviewsByUserId, getReviewById, removeReviewById } from '../data/reviews.js'
 import express from 'express';
 const router = express.Router();
-import helpers from '../helpers.js'
+import helperMethods from '../helpers.js';
+
 router
   .route('/')
   .post(async (req, res) => {  // createReview
@@ -12,11 +13,11 @@ router
 
     try {
       let { movieId, userId, reviewTitle, reviewDate, review, rating } = data;
-      userId = helpers.getValidId(userId);
-      movieId = helpers.getValidId(movieId);
+      userId = helperMethods.getValidId(userId);
+      movieId = helperMethods.getValidId(movieId);
       let {
         reviewTitleValid, reviewDateValid, reviewValid, ratingValid
-      } = helpers.getValidReview(
+      } = helperMethods.getValidReview(
         reviewTitle, reviewDate, review, rating
       )
       const event = await createReview(movieId, userId, reviewTitleValid, reviewDateValid, reviewValid, ratingValid)
@@ -34,7 +35,7 @@ router
   .route('/:reviewId')
   .get(async (req, res) => { // getReviewById
     try {
-      const event = await getReviewById(helpers.getValidId(req.params.reviewId))
+      const event = await getReviewById(helperMethods.getValidId(req.params.reviewId))
       return res.status(200).json(event);
     } catch (e) {
       if (e.name === '404') {
@@ -46,7 +47,7 @@ router
   })
   .delete(async (req, res) => {  // removeReviewById
     try {
-      const event = await removeReviewById(helpers.getValidId(req.params.reviewId))
+      const event = await removeReviewById(helperMethods.getValidId(req.params.reviewId))
       return res.status(200).json(event);
     } catch (e) {
       if (e.name === '404') {
@@ -61,7 +62,7 @@ router
   .route('/user/:userId')
   .get(async (req, res) => {  // getAllReviewsByUserId
     try {
-      const event = await getAllReviewsByUserId(helpers.getValidId(req.params.userId))
+      const event = await getAllReviewsByUserId(helperMethods.getValidId(req.params.userId))
       return res.status(200).json(event);
     } catch (e) {
       if (e.name === '404') {
@@ -73,7 +74,7 @@ router
   })
   .delete(async (req, res) => {   // deleteAllReviewsByUserId
     try {
-      const event = await deleteAllReviewsByUserId(helpers.getValidId(req.params.userId))
+      const event = await deleteAllReviewsByUserId(helperMethods.getValidId(req.params.userId))
       return res.status(200).json(event);
     } catch (e) {
       if (e.name === '404') {

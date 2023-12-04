@@ -2,7 +2,7 @@ import { createMovie, getAllMovies, getMovieById, removeMovieById, updateMovieBy
 import { createReview, getAllReviewsByMovieId, getAllReviewsByUserId, deleteAllReviewsByUserId, getReviewById, removeReviewById } from '../data/reviews.js'
 import express from 'express';
 const router = express.Router();
-import helpers from '../helpers.js'
+import helperMethods from '../helpers.js'
 
 router
   .route('/') 
@@ -23,7 +23,7 @@ router
     try {
       let {
         titleValid, plotValid, MPA_FilmRatingsValid, studioValid, directorValid, dateReleasedValid, durationValid, overallRatingValid, imageUrlValid
-      } = helpers.getValidMovie (
+      } = helperMethods.getValidMovie (
         data.title,
         data.plot,
         data.MPA_FilmRatings,
@@ -53,7 +53,7 @@ router
   .route('/:movieId')
   .get(async (req, res) => { // getMovieById
     try {
-      let movieId = helpers.getValidId(req.params.movieId);
+      let movieId = helperMethods.getValidId(req.params.movieId);
       const event = await getMovieById(movieId)
       return res.status(200).json(event);
 
@@ -67,7 +67,7 @@ router
   })
   .delete(async (req, res) => { // removeMovieById
     try {
-      let movieId = helpers.getValidId(req.params.movieId);
+      let movieId = helperMethods.getValidId(req.params.movieId);
       const event = await removeMovieById(movieId)
       return res.status(200).json(event);
 
@@ -88,7 +88,7 @@ router
     try {
       let {
         titleValid, plotValid, MPA_FilmRatingsValid, studioValid, directorValid, dateReleasedValid, durationValid, overallRatingValid, imageUrlValid
-      } = helpers.getValidMovie(
+      } = helperMethods.getValidMovie(
         data.title,
         data.plot,
         data.MPA_FilmRatings,
@@ -100,7 +100,7 @@ router
         data.imageUrl
       )
       
-      const newPost = await updateMovieById(helpers.getValidId(req.params.movieId),
+      const newPost = await updateMovieById(helperMethods.getValidId(req.params.movieId),
         titleValid,
         plotValid,
         MPA_FilmRatingsValid,
@@ -125,7 +125,7 @@ router
   .get(async (req, res) => { // getAllReviewsByMovieId
 
     try {
-      req.params.movieId = helpers.getValidId(req.params.movieId);
+      req.params.movieId = helperMethods.getValidId(req.params.movieId);
       const event = await getAllReviewsByMovieId(req.params.movieId)
       return res.status(200).json(event);
 
