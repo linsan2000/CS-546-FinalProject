@@ -151,15 +151,19 @@ const helperMethods = {
         return true
     },
     isValidUsername(username) {
-        var pattern = /^[a-zA-Z0-9_]+$/;
+        if (typeof username !== 'string' || username.trim() === '' || /\d/.test(username) || username.length < 2 || username.length > 25) {
+            return false
+        }
 
-        return pattern.test(username);
+        return true
     },
     isValidPassword(password) {
-        var pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%]{6,}$/;
+        if (typeof password !== 'string' || password.trim() === '' || /\s/.test(password)) {
+            return false
+        }
+        var pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-])[0-9a-zA-Z!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]{8,}$/;
 
-        return pattern.test(password);
-        // return true
+        return pattern.test(password)
     },
     isValidEmailAddress(email) {
         let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/

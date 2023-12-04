@@ -30,6 +30,10 @@ const registerUser = async (
   if (!usersCollection) {
     throw 'usersCollection can not be created'
   }
+  let user = await usersCollection.findOne({ email: newUser.email })
+  if (user) {
+    throw 'emailAddress already existed'
+  }
   const hash = await bcrypt.hash(newUser.password, saltRounds);
   newUser.password = hash;
   const insertInfo = await usersCollection.insertOne(newUser)
@@ -37,9 +41,7 @@ const registerUser = async (
     throw 'Could not add user'
   }
 
-  const newId = insertInfo.insertedId.toString()
-  const user = await getUserById(newId)
-  return user
+  return { insertedUser: true }
 }
 
 const getAllUsers = async () => {
@@ -131,7 +133,6 @@ const login = async (emailAddress, password) => {
   }
 
   return {
-    _id: user._id.toString(),
     username: user.username,
     email: user.email,
     isAdmin: user.isAdmin
