@@ -1,0 +1,23 @@
+
+body{
+    padding:0;
+    margin: 0;
+    background-color: orange;
+}
+.header-container{
+    background-color: #fda;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+header .title{
+    font-size: 30px;
+    font-weight: bold;
+    color:white;
+}
+.user-info-container{
+    margin-left: auto;
+}
+.main-container{
+padding: 10px;
+}

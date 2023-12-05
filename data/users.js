@@ -4,7 +4,7 @@ import { reviewsData } from "./index.js"
 import { ObjectId } from 'mongodb'
 import bcrypt from 'bcrypt';
 
-const saltRounds = 16;
+const saltRounds = 2;
 const usersCollection = await users()
 
 const registerUser = async (

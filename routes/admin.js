@@ -8,13 +8,21 @@ router
         const user = req.session.user;
         const isAdmin = user.role === 'admin';
         const movies = await moviesData.getAllMovies();
-
         return res.render('home', {
-            username: user.username,
-            role: user.role,
+            user: user,
             isAdmin: isAdmin,
             movies: movies,
             currentTime: new Date().toLocaleTimeString()
+        });
+    });
+
+router
+    .route('/publish')
+    .get(async (req, res) => {
+        const user = req.session.user;
+        const isAdmin = user.role === 'admin';
+        return res.render('publish', {
+            user: user
         });
     });
 

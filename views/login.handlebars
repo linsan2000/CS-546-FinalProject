@@ -1,31 +1,15 @@
-<!DOCTYPE html>
-<html>
+<h1>Login</h1>
+<form id="login-form" action="/login" method="post">
+    <label for="emailAddressInput">Email Address:</label>
+    <input type="email" id="emailAddressInput" name="emailAddressInput">
+    <label for="passwordInput">Password:</label>
+    <input type="password" id="passwordInput" name="passwordInput">
+    <button type="submit">Login</button>
+</form>
+{{#if errorMessage}}
+{{> error errorMessage=errorMessage statusCode=statusCode}}
+{{/if}}
+<p id="error" class="error" hidden></p>
 
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="/public/css/styles.css">
-    <title>Login</title>
-</head>
-
-<body>
-    <h1>Login</h1>
-    <form id="login-form" action="/login" method="post">
-        <label for="emailAddressInput">Email Address:</label>
-        <input type="email" id="emailAddressInput" name="emailAddressInput">
-
-        <label for="passwordInput">Password:</label>
-        <input type="password" id="passwordInput" name="passwordInput">
-
-        <button type="submit">Login</button>
-    </form>
-    {{#if errorMessage}}
-    {{> error errorMessage=errorMessage statusCode=statusCode}}
-    {{/if}}
-    <p id="error" class="error" hidden></p>
-
-    <a href="/register">Create an Account</a>
-    <p>Click <a href="/register">here</a> to register!</p>
-    <script src="/public/js/client_side_validation.js"></script>
-</body>
-
-</html>
+<p>Click <a href="/register">here</a> to register!</p>
+<script src="/public/js/client_side_validation.js"></script>
