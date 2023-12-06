@@ -11,7 +11,7 @@ const constructorMethod = (app) => {
   app.use('/admin', adminRoutes);
   app.use('/protected', protectedRoutes);
   app.use('/logout', logoutRoutes);
-  app.use('/admin/movies', moviesRoutes);
+  // app.use('/admin/movies', moviesRoutes);
 
   app.use('*', (req, res) => {
     res.redirect('/');

@@ -1,3 +1,66 @@
 <div>
-
+    <ol>
+        {{#each movies}}
+        <li>
+            <div class="movie-container">
+                <img class="movie-image" src="{{this.imageUrl}}" />
+                <div class="movie-info-container">
+                    <h1 class="movie-title">{{this.title}}</h1>
+                    <div class="info-container">
+                        <div class="info-label">Director:</div>
+                        <div class="info">{{this.director}}</div>
+                    </div>
+                    <div class="info-container">
+                        <div class="info-label">Studio:</div>
+                        <div class="info">{{this.studio}}</div>
+                    </div>
+                    <div class="info-container">
+                        <div class="info-label">Duration:</div>
+                        <div class="info">{{this.duration}}</div>
+                    </div>
+                    <div class="info-container">
+                        <div class="info-label">Date Released:</div>
+                        <div class="info">{{this.dateReleased}}</div>
+                    </div>
+                </div>
+            </div>
+        </li>
+        {{/each}}
+    </ol>
 </div>
+<style>
+    .movie-container {
+        display: flex;
+        padding: 10px;
+        border: 1px solid rgb(243, 117, 117);
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+
+    .movie-title {
+        color: #333;
+    }
+
+    .movie-image {
+        width: 134px;
+        height: 200px;
+        border: 1px solid #eee;
+    }
+
+    .movie-info-container {
+        margin-left: 15px;
+    }
+
+    .info-label {
+        color: #666;
+    }
+
+    .info {
+        color: #333;
+        margin-left: 3px;
+    }
+
+    .info-container {
+        display: flex;
+    }
+</style>

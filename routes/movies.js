@@ -4,6 +4,7 @@ import express from 'express';
 const router = express.Router();
 import helperMethods from '../helpers.js'
 
+
 router
   .route('/')
   .get(async (req, res) => { // getAllMovies
@@ -15,38 +16,47 @@ router
     }
   })
   .post(async (req, res) => { // createMovie
-    const data = req.body;
-    console.log(data)
-    if (!data || Object.keys(data).length === 0) {
-      return res.status(400).json({ error: 'There are no fields in the request body' });
-    }
     try {
-      let {
-        titleValid, plotValid, MPA_FilmRatingsValid, studioValid, directorValid, dateReleasedValid, durationValid, overallRatingValid, imageUrlValid
-      } = helperMethods.getValidMovie(
-        data.title,
-        data.plot,
-        data.MPA_FilmRatings,
-        data.studio,
-        data.director,
-        data.dateReleased,
-        data.duration,
-        data.overallRating,
-        data.imageUrl
-      )
-      const newPost = await createMovie(titleValid,
-        plotValid,
-        MPA_FilmRatingsValid,
-        studioValid,
-        directorValid,
-        dateReleasedValid,
-        durationValid,
-        overallRatingValid,
-        imageUrlValid);
-      res.status(200).json(newPost);
-    } catch (e) {
+      let movieInfo = getValidateMovieInstance(req.body)
+      console.log(movieInfo)
+      res.json({ success: true })
+    }
+    catch (e) {
+      console.error(e)
       res.status(400).json({ error: e });
     }
+    // const data = req.body;
+    // console.log(data)
+    // if (!data || Object.keys(data).length === 0) {
+    //   return res.status(400).json({ error: 'There are no fields in the request body' });
+    // }
+    // try {
+    //   let {
+    //     titleValid, plotValid, MPA_FilmRatingsValid, studioValid, directorValid, dateReleasedValid, durationValid, overallRatingValid, imageUrlValid
+    //   } = helperMethods.getValidMovie(
+    //     data.title,
+    //     data.plot,
+    //     data.MPA_FilmRatings,
+    //     data.studio,
+    //     data.director,
+    //     data.dateReleased,
+    //     data.duration,
+    //     data.overallRating,
+    //     data.imageUrl
+    //   )
+    //   const newPost = await createMovie(titleValid,
+    //     plotValid,
+    //     MPA_FilmRatingsValid,
+    //     studioValid,
+    //     directorValid,
+    //     dateReleasedValid,
+    //     durationValid,
+    //     overallRatingValid,
+    //     imageUrlValid);
+    //   res.status(200).json(newPost);
+    // } catch (e) {
+    //   res.status(400).json({ error: e });
+    // }
   });
 
 router
@@ -80,44 +90,51 @@ router
     }
   })
   .put(async (req, res) => { // updateMovieById
-    const data = req.body;
-    if (!data || Object.keys(data).length === 0) {
-      return res.status(400).json({ error: 'There are no fields in the request body' });
-    }
-
     try {
-      let {
-        titleValid, plotValid, MPA_FilmRatingsValid, studioValid, directorValid, dateReleasedValid, durationValid, overallRatingValid, imageUrlValid
-      } = helperMethods.getValidMovie(
-        data.title,
-        data.plot,
-        data.MPA_FilmRatings,
-        data.studio,
-        data.director,
-        data.dateReleased,
-        data.duration,
-        data.overallRating,
-        data.imageUrl
-      )
-
-      const newPost = await updateMovieById(helperMethods.getValidId(req.params.movieId),
-        titleValid,
-        plotValid,
-        MPA_FilmRatingsValid,
-        studioValid,
-        directorValid,
-        dateReleasedValid,
-        durationValid,
-        overallRatingValid,
-        imageUrlValid);
-      res.status(200).json(newPost);
-    } catch (e) {
-      if (e.name === '404') {
-        res.status(404).json({ error: e.message });
-      } else if (e.message) {
-        res.status(400).json({ error: e.message });
-      } else res.status(400).json({ error: e });
+      let movieInfo = getValidateMovieInstance(req.data)
+      console.log(movieInfo)
+      res.json({ success: true })
     }
+    catch (e) {
+      res.status(400).json({ error: e });
+    }
+    //const data = req.body;
+    // if (!data || Object.keys(data).length === 0) {
+    //   return res.status(400).json({ error: 'There are no fields in the request body' });
+    // }
+    // try {
+    //   let {
+    //     titleValid, plotValid, MPA_FilmRatingsValid, studioValid, directorValid, dateReleasedValid, durationValid, overallRatingValid, imageUrlValid
+    //   } = helperMethods.getValidMovie(
+    //     data.title,
+    //     data.plot,
+    //     data.MPA_FilmRatings,
+    //     data.studio,
+    //     data.director,
+    //     data.dateReleased,
+    //     data.duration,
+    //     data.overallRating,
+    //     data.imageUrl
+    //   )
+
+    //   const newPost = await updateMovieById(helperMethods.getValidId(req.params.movieId),
+    //     titleValid,
+    //     plotValid,
+    //     MPA_FilmRatingsValid,
+    //     studioValid,
+    //     directorValid,
+    //     dateReleasedValid,
+    //     durationValid,
+    //     overallRatingValid,
+    //     imageUrlValid);
+    //   res.status(200).json(newPost);
+    // } catch (e) {
+    //   if (e.name === '404') {
+    //     res.status(404).json({ error: e.message });
+    //   } else if (e.message) {
+    //     res.status(400).json({ error: e.message });
+    //   } else res.status(400).json({ error: e });
+    // }
   });
 
 router
@@ -137,5 +154,6 @@ router
       } else res.status(400).json({ error: e });
     }
   })
+
 
 export default router;
