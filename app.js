@@ -5,7 +5,6 @@ import exphbs from 'express-handlebars';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { readFile } from 'fs/promises';
-import e from 'express';
 
 const app = express();
 

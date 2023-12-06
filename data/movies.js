@@ -12,11 +12,10 @@ const createMovie = async (
   director,
   dateReleased,
   duration,
-  overallRating,
   imageUrl
 ) => {
   let {
-    titleValid, plotValid, MPA_FilmRatingsValid, studioValid, directorValid, dateReleasedValid, durationValid, overallRatingValid, imageUrlValid
+    titleValid, plotValid, MPA_FilmRatingsValid, studioValid, directorValid, dateReleasedValid, durationValid, imageUrlValid
   } = helperMethods.getValidMovie(
     title,
     plot,
@@ -25,7 +24,6 @@ const createMovie = async (
     director,
     dateReleased,
     duration,
-    overallRating,
     imageUrl
   )
   const newMovie = {
@@ -36,8 +34,8 @@ const createMovie = async (
     director: directorValid,
     dateReleased: dateReleasedValid,
     duration: durationValid,
-    overallRating: overallRatingValid,
-    imageUrl: imageUrlValid,
+    overallRating: 0,
+    imageUrl: imageUrlValid
   }
   if (!moviesCollection) {
     throw 'moviesCollection can not be created'
@@ -47,9 +45,7 @@ const createMovie = async (
     throw 'Could not add movie'
   }
 
-  const newId = insertInfo.insertedId.toString()
-  const movie = await getMovieById(newId)
-  return movie
+  return { insertedMovie: true }
 }
 
 const getAllMovies = async () => {
@@ -59,8 +55,8 @@ const getAllMovies = async () => {
 }
 
 const getMovieById = async (movieId) => {
-  movieId = helperMethods.getValidId(movieId)
-  const movie = await moviesCollection.findOne({ _id: new ObjectId(movieId) })
+  movieIdValid = helperMethods.getValidId(movieId)
+  const movie = await moviesCollection.findOne({ _id: new ObjectId(movieIdValid) })
   if (movie === null) {
     throw Object.assign(new Error('No movie with that movieId'), { name: '404' });
   }

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <link href="/public/css/publish.css" rel="stylesheet" />
 <form class="layui-form" lay-filter="publish" action="">
     <div class="layui-form-item">
@@ -49,3 +50,38 @@
     </div>
 </form>
 <script src="/public/js/publish.js" />
+=======
+<div>
+    <form action="/admin/addMovie" enctype="multipart/form-data" method="post">
+        <label for="titleInput">title:</label>
+        <input type="text" id="titleInput" name="titleInput">
+
+        <label for="plotInput">plot:</label>
+        <input type="text" id="plotInput" name="plotInput">
+
+        <label for="MPA_FilmRatingsInput">MPA_FilmRatings:</label>
+        <input type="text" id="MPA_FilmRatingsInput" name="MPA_FilmRatingsInput">
+
+        <label for="studioInput">studio:</label>
+        <input type="text" id="studioInput" name="studioInput">
+
+        <label for="directorInput">director:</label>
+        <input type="text" id="directorInput" name="directorInput">
+
+        <label for="dateReleasedInput">dateReleased:</label>
+        <input type="date" id="dateReleasedInput" name="dateReleasedInput">
+
+        <label for="durationInput">duration:</label>
+        <input type="number" id="durationInput" name="durationInput">
+
+        <label for="movieImageInput">movieImage:</label>
+        <input type="file" id="movieImageInput" name="movieImageInput" accept="image/*">
+
+        <button type=" submit">Add movie</button>
+    </form>
+    {{#if errorMessage}}
+    {{> error errorMessage=errorMessage statusCode=statusCode}}
+    {{/if}}
+
+</div>
+>>>>>>> refs/remotes/origin/main
