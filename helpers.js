@@ -8,7 +8,6 @@ const helperMethods = {
         director,
         dateReleased,
         duration,
-        overallRating,
         imageUrl
     ) {
         if (!this.isAllExist([
@@ -19,7 +18,6 @@ const helperMethods = {
             director,
             dateReleased,
             duration,
-            overallRating,
             imageUrl])) {
             throw "not all fields are provided"
         }
@@ -29,7 +27,6 @@ const helperMethods = {
             MPA_FilmRatings,
             studio,
             director,
-            dateReleased,
             imageUrl
         ])) {
             throw "not string or empty strings"
@@ -39,13 +36,14 @@ const helperMethods = {
         MPA_FilmRatings = MPA_FilmRatings.trim()
         studio = studio.trim()
         director = director.trim()
-        dateReleased = dateReleased.trim()
         imageUrl = imageUrl.trim()
+        duration = Number(duration)
+        dateReleased = new Date(dateReleased)
         if (typeof duration !== 'number' || duration < 0) {
             throw "duration is not a valid number"
         }
-        if (typeof overallRating !== 'number' || overallRating < 0) {
-            throw "overallRating is not a valid number"
+        if (!(dateReleased instanceof Date)) {
+            throw "dateReleased is not a date";
         }
 
         return {
@@ -56,7 +54,6 @@ const helperMethods = {
             directorValid: director,
             dateReleasedValid: dateReleased,
             durationValid: duration,
-            overallRatingValid: overallRating,
             imageUrlValid: imageUrl
         }
     },
