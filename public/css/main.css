@@ -20,4 +20,10 @@ header .title{
 }
 .main-container{
 padding: 10px;
+display: flex;
+justify-content: center;
+}
+.body-content-container {
+    min-width: 800px;
+    max-width: 1000px;
 }

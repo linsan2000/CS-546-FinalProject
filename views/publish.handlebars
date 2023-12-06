@@ -1,3 +1,51 @@
-<div>
-    publish a movice
-</div>
+<link href="/public/css/publish.css" rel="stylesheet" />
+<form class="layui-form" lay-filter="publish" action="">
+    <div class="layui-form-item">
+        <label class="layui-form-label">Title</label>
+        <div class="layui-input-block">
+            <input type="text" name="title" placeholder="Movie name" lay-verify="title" autocomplete="off"
+                class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">Director</label>
+        <div class="layui-input-block">
+            <input type="text" name="director" placeholder="Movie director" lay-verify="director" autocomplete="off"
+                class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">Studio</label>
+        <div class="layui-input-block">
+            <input type="text" name="studio" placeholder="Movie studio" lay-verify="studio" autocomplete="off"
+                class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">Released</label>
+        <div class="layui-input-block">
+            <input type="date" name="dateReleased" placeholder="Movie released date" lay-verify="dateReleased"
+                autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">Duration</label>
+        <div class="layui-input-block">
+            <input type="number" name="duration" placeholder="Movie duration(Seconds)" lay-verify="duration"
+                autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">Description</label>
+        <div class="layui-input-block">
+            <textarea placeholder="Movie description" name="plot" lay-verify="plot" class="layui-textarea"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="submit" class="layui-btn" lay-submit lay-filter="demo1">Submit</button>
+            <button type="reset" class="layui-btn layui-btn-danger">Reset</button>
+        </div>
+    </div>
+</form>
+<script src="/public/js/publish.js" />

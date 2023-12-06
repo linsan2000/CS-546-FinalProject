@@ -5,7 +5,7 @@ const router = express.Router();
 import helperMethods from '../helpers.js'
 
 router
-  .route('/') 
+  .route('/')
   .get(async (req, res) => { // getAllMovies
     try {
       const movies = await getAllMovies()
@@ -16,14 +16,14 @@ router
   })
   .post(async (req, res) => { // createMovie
     const data = req.body;
+    console.log(data)
     if (!data || Object.keys(data).length === 0) {
       return res.status(400).json({ error: 'There are no fields in the request body' });
     }
-
     try {
       let {
         titleValid, plotValid, MPA_FilmRatingsValid, studioValid, directorValid, dateReleasedValid, durationValid, overallRatingValid, imageUrlValid
-      } = helperMethods.getValidMovie (
+      } = helperMethods.getValidMovie(
         data.title,
         data.plot,
         data.MPA_FilmRatings,
@@ -84,7 +84,7 @@ router
     if (!data || Object.keys(data).length === 0) {
       return res.status(400).json({ error: 'There are no fields in the request body' });
     }
-    
+
     try {
       let {
         titleValid, plotValid, MPA_FilmRatingsValid, studioValid, directorValid, dateReleasedValid, durationValid, overallRatingValid, imageUrlValid
@@ -99,7 +99,7 @@ router
         data.overallRating,
         data.imageUrl
       )
-      
+
       const newPost = await updateMovieById(helperMethods.getValidId(req.params.movieId),
         titleValid,
         plotValid,
@@ -113,15 +113,15 @@ router
       res.status(200).json(newPost);
     } catch (e) {
       if (e.name === '404') {
-         res.status(404).json({ error: e.message });
-      }else if (e.message){
-         res.status(400).json({ error: e.message });
+        res.status(404).json({ error: e.message });
+      } else if (e.message) {
+        res.status(400).json({ error: e.message });
       } else res.status(400).json({ error: e });
     }
   });
 
 router
-  .route('/:movieId/reviews') 
+  .route('/:movieId/reviews')
   .get(async (req, res) => { // getAllReviewsByMovieId
 
     try {
@@ -137,5 +137,5 @@ router
       } else res.status(400).json({ error: e });
     }
   })
-  
+
 export default router;
