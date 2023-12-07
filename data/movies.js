@@ -5,55 +5,38 @@ import { ObjectId } from 'mongodb'
 const moviesCollection = await movies()
 
 const createMovie = async (movieInfo) => {
-  const insertInfo = await moviesCollection.insertOne(movieInfo)
-  if (!insertInfo.insertedId) {
-    throw 'Server error, please try agian.'
+  let { title, director, studio, dateReleased, duration, plot, imageUrl } = movieInfo;
+  let {
+    titleValid, plotValid, studioValid, directorValid, dateReleasedValid, durationValid, imageUrlValid
+  } = helperMethods.getValidMovie(
+    title,
+    plot,
+    studio,
+    director,
+    dateReleased,
+    duration,
+    imageUrl
+  )
+  const newMovie = {
+    title: titleValid,
+    plot: plotValid,
+    studio: studioValid,
+    director: directorValid,
+    dateReleased: dateReleasedValid,
+    duration: durationValid,
+    overallRating: 0,
+    imageUrl: imageUrlValid
   }
+  if (!moviesCollection) {
+    throw 'moviesCollection can not be created'
+  }
+  const insertInfo = await moviesCollection.insertOne(newMovie)
+  if (!insertInfo.acknowledged || !insertInfo.insertedId) {
+    throw 'Could not add movie'
+  }
+
   return { success: true }
 }
-// const createMovie = async (
-//   title,
-//   plot,
-//   MPA_FilmRatings,
-//   studio,
-//   director,
-//   dateReleased,
-//   duration,
-//   imageUrl
-// ) => {
-//   let {
-//     titleValid, plotValid, MPA_FilmRatingsValid, studioValid, directorValid, dateReleasedValid, durationValid, imageUrlValid
-//   } = helperMethods.getValidMovie(
-//     title,
-//     plot,
-//     MPA_FilmRatings,
-//     studio,
-//     director,
-//     dateReleased,
-//     duration,
-//     imageUrl
-//   )
-//   const newMovie = {
-//     title: titleValid,
-//     plot: plotValid,
-//     MPA_FilmRatings: MPA_FilmRatingsValid,
-//     studio: studioValid,
-//     director: directorValid,
-//     dateReleased: dateReleasedValid,
-//     duration: durationValid,
-//     overallRating: 0,
-//     imageUrl: imageUrlValid
-//   }
-//   if (!moviesCollection) {
-//     throw 'moviesCollection can not be created'
-//   }
-//   const insertInfo = await moviesCollection.insertOne(newMovie)
-//   if (!insertInfo.acknowledged || !insertInfo.insertedId) {
-//     throw 'Could not add movie'
-//   }
-
-//   return { insertedMovie: true }
-// }
 function getDurationStr(duration) {
   if (duration < 60) {
     return duration.toFixed(0) + ' Seconds'
@@ -98,7 +81,8 @@ const getAllMovies = async () => {
     duration: getDurationStr(m.duration),
     imageUrl: m.imageUrl,
     dateReleased: m.dateReleased.toString(),
-    plot: m.plot
+    plot: m.plot,
+    overallRating: m.overallRating
   }))
 }
 
@@ -132,7 +116,6 @@ const updateMovieById = async (
   movieId,
   title,
   plot,
-  MPA_FilmRatings,
   studio,
   director,
   dateReleased,
@@ -146,11 +129,10 @@ const updateMovieById = async (
     throw Object.assign(new Error('No movie with that movieId'), { name: '404' });
   }
   let {
-    titleValid, plotValid, MPA_FilmRatingsValid, studioValid, directorValid, dateReleasedValid, durationValid, overallRatingValid, imageUrlValid
+    titleValid, plotValid, studioValid, directorValid, dateReleasedValid, durationValid, overallRatingValid, imageUrlValid
   } = helperMethods.getValidMovie(
     title,
     plot,
-    MPA_FilmRatings,
     studio,
     director,
     dateReleased,
@@ -161,7 +143,6 @@ const updateMovieById = async (
   const updatemovie = {
     title: titleValid,
     plot: plotValid,
-    MPA_FilmRatings: MPA_FilmRatingsValid,
     studio: studioValid,
     director: directorValid,
     dateReleased: dateReleasedValid,

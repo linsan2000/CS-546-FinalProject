@@ -14,7 +14,7 @@ const registerUser = async (
   role
 ) => {
   let {
-    usernameValid, emailAddressValid, passwordValid, roleValid,
+    usernameValid, emailAddressValid, passwordValid, roleValid
   } = helperMethods.getValidUser(
     username,
     emailAddress,
@@ -25,7 +25,7 @@ const registerUser = async (
     username: usernameValid,
     emailAddress: emailAddressValid,
     password: passwordValid,
-    role: roleValid,
+    role: roleValid
   }
   if (!usersCollection) {
     throw 'usersCollection can not be created'
@@ -73,7 +73,11 @@ const removeUserById = async (userId) => {
   if (!deletionInfo) {
     throw `Could not delete user with userId of ${userId}`
   }
-  reviewsData.deleteAllReviewsByUserId(userId)
+  try {
+    await reviewsData.deleteAllReviewsByUserId(userId)
+  } catch (e) {
+    throw 'can not delete user reviews'
+  }
 
   return {
     title: deletionInfo.title,
@@ -85,8 +89,8 @@ const updateUserById = async (
   userId,
   username,
   password,
-  email,
-  isAdmin
+  emailAddress,
+  role
 ) => {
   userId = helperMethods.getValidId(userId)
   const user = await usersCollection.findOne({ _id: new ObjectId(userId) })
@@ -94,26 +98,29 @@ const updateUserById = async (
     throw Object.assign(new Error('No user with that userId'), { name: '404' });
   }
   let {
-    usernameValid, emailValid, isAdminValid, passwordValid,
+    usernameValid, emailAddressValid, passwordValid, roleValid,
   } = helperMethods.getValidUser(
     username,
+    emailAddress,
     password,
-    email,
-    isAdmin
+    role
   )
   const updateUser = {
     username: usernameValid,
+    emailAddress: emailAddressValid,
     password: passwordValid,
-    email: emailValid,
-    isAdmin: isAdminValid,
+    role: roleValid
   }
   const hash = await bcrypt.hash(updateUser.password, saltRounds);
   updateUser.password = hash;
   let res = await usersCollection.updateOne({ _id: new ObjectId(userId) }, {
     $set: updateUser
   })
+  if (!res.acknowledged || res.modifiedCount === 0) {
+    throw 'Could not update user'
+  }
 
-  return await usersCollection.findOne({ _id: new ObjectId(userId) })
+  return { updatedUser: true }
 }
 
 const loginUser = async (emailAddress, password) => {

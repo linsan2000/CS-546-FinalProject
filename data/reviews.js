@@ -36,9 +36,6 @@ const createReview = async (movieId, userId, reviewTitle, reviewDate, review, ra
 const getAllReviewsByMovieId = async (movieId) => {
   movieId = helperMethods.getValidId(movieId)
   const reviewList = await reviewsCollection.find({ movieId: movieId }).toArray()
-  if (reviewList.length === 0) {
-    throw ' movieId do not exists any reviews'
-  }
 
   return reviewList
 };
@@ -46,9 +43,6 @@ const getAllReviewsByMovieId = async (movieId) => {
 const getAllReviewsByUserId = async (userId) => {
   userId = helperMethods.getValidId(userId)
   const reviewList = await reviewsCollection.find({ userId: userId }).toArray()
-  if (reviewList.length === 0) {
-    throw ' userId do not exists any reviews'
-  }
 
   return reviewList
 };
@@ -56,7 +50,7 @@ const getAllReviewsByUserId = async (userId) => {
 const deleteAllReviewsByUserId = async (userId) => {
   userId = helperMethods.getValidId(userId)
   const deletionInfo = await reviewsCollection.deleteMany({ userId: userId })
-  if (deletionInfo.deletedCount === 0) {
+  if (!deletionInfo.acknowledged) {
     throw `Could not delete reviews with userId of ${userId}`
   }
 

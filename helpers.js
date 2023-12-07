@@ -3,7 +3,6 @@ const helperMethods = {
     getValidMovie(
         title,
         plot,
-        MPA_FilmRatings,
         studio,
         director,
         dateReleased,
@@ -13,7 +12,6 @@ const helperMethods = {
         if (!this.isAllExist([
             title,
             plot,
-            MPA_FilmRatings,
             studio,
             director,
             dateReleased,
@@ -24,7 +22,6 @@ const helperMethods = {
         if (!this.isParamsStringAndNotJustEmptySpaces([
             title,
             plot,
-            MPA_FilmRatings,
             studio,
             director,
             imageUrl
@@ -33,7 +30,6 @@ const helperMethods = {
         }
         title = title.trim()
         plot = plot.trim()
-        MPA_FilmRatings = MPA_FilmRatings.trim()
         studio = studio.trim()
         director = director.trim()
         imageUrl = imageUrl.trim()
@@ -49,7 +45,6 @@ const helperMethods = {
         return {
             titleValid: title,
             plotValid: plot,
-            MPA_FilmRatingsValid: MPA_FilmRatings,
             studioValid: studio,
             directorValid: director,
             dateReleasedValid: dateReleased,
