@@ -14,14 +14,28 @@
 <body>
     <header class="header-container">
         <div class="title">Movie Reviews</div>
-        {{#if user}}
         <div class="user-info-container">
+            {{#if user}}
             <button class="layui-btn layui-bg-red" id="userInfo_{{user.role}}">
                 <span>{{user.username}}</span>
                 <i class="layui-icon layui-icon-down layui-font-12"></i>
             </button>
+            {{else}}
+            {{#if isLoginPage}}
+            <a href="/">
+                <button class="layui-btn layui-bg-red" id="login-btn">
+                    Home
+                </button>
+            </a>
+            {{else}}
+            <a href="/login">
+                <button class="layui-btn layui-bg-red" id="login-btn">
+                    Login/Register
+                </button>
+            </a>
+            {{/if}}
+            {{/if}}
         </div>
-        {{/if}}
     </header>
     <main class="main-container">
         <div class="body-content-container ">

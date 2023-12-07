@@ -1,42 +1,75 @@
-<!DOCTYPE html>
-<html lang="en">
+<div class="register-container">
+    <div class="register-form-container">
+        <h1 class="register-title">Create account.</h1>
+        <form class="layui-form layui-form-pane" lay-filter="register" action="">
+            <div class="layui-form-item">
+                <label class="layui-form-label">Username</label>
+                <div class="layui-input-block">
+                    <input type="text" name="username" placeholder="Username" lay-verify="username" autocomplete="off"
+                        class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">Email</label>
+                <div class="layui-input-block">
+                    <input type="email" name="email" placeholder="Email address" lay-verify="email" autocomplete="off"
+                        class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">Password</label>
+                <div class="layui-input-block">
+                    <input type="password" name="password" placeholder="Password" lay-verify="password" id="password"
+                        autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">Confirm</label>
+                <div class="layui-input-block">
+                    <input type="password" name="password2" placeholder="Confirm password" lay-verify="password2"
+                        autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item" style="background-color: white;">
+                <label class="layui-form-label">Role</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="role" value="admin" title="Admin" checked>
+                    <input type="radio" name="role" value="user" title="User">
+                </div>
 
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="/public/css/styles.css">
-    <title>Register</title>
-</head>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button type="submit" class="layui-btn" lay-submit lay-filter="register">Register</button>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <a href="/login" class="register-btn">Already havce an account? Login.</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src="/public/js/register.js"></script>
+    <style>
+        .register-title {
+            color: white;
+            margin-top: 50px;
+            text-align: center;
+            margin-bottom: 50px;
+        }
 
-<body>
-    <h2>Register</h2>
-    <form id="registration-form" action="/register" method="POST" onsubmit="return validateForm()">
-        <label for="usernameInput">username:</label>
-        <input type="text" id="usernameInput" name="usernameInput">
+        .register-form-container {
+            width: 400px;
+        }
 
-        <label for="emailAddressInput">Email Address:</label>
-        <input type="email" id="emailAddressInput" name="emailAddressInput">
+        .register-container {
+            display: flex;
+            justify-content: center;
+        }
 
-        <label for="passwordInput">Password:</label>
-        <input type="password" id="passwordInput" name="passwordInput">
-
-        <label for="confirmPasswordInput">Confirm Password:</label>
-        <input type="password" id="confirmPasswordInput" name="confirmPasswordInput">
-
-        <label for="roleInput">Role:</label>
-        <select id="roleInput" name="roleInput">
-            <option value="admin">Admin</option>
-            <option value="user">User</option>
-        </select>
-
-        <button type="submit">Register</button>
-    </form>
-    {{#if errorMessage}}
-    {{> error errorMessage=errorMessage statusCode=statusCode}}
-    {{/if}}
-    <p id="error" class="error" hidden></p>
-
-    <p>Already have an account? Click <a href="/login">here</a> to log-in!</p>
-    <script src="/public/js/client_side_validation.js"></script>
-</body>
-
-</html>
+        .register-btn {
+            color: white;
+        }
+    </style>
+</div>

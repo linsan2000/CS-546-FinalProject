@@ -71,6 +71,22 @@ function getDurationStr(duration) {
     return hours.toFixed(2) + ' Days'
   }
 }
+/**
+ * get movie list by page
+ * @param {*} param0 
+ * @returns 
+ */
+const getMoviePageList = async ({ page, limit, queryStr }) => {
+  let movieList = await moviesCollection.find({}).sort({
+    dateReleased: 1
+  }).skip((page - 1) * limit).limit(limit);
+  return {
+    data: await movieList.toArray(),
+    curr: page,
+    limit: limit,
+    total: await movieList.count()
+  }
+}
 const getAllMovies = async () => {
   // let movieList = await moviesCollection.find({}).project({ _id: 1, title: 1, overallRating: 1, imageUrl: 1 }).toArray()
   let movieList = await moviesCollection.find({}).toArray()
@@ -81,7 +97,8 @@ const getAllMovies = async () => {
     studio: m.studio,
     duration: getDurationStr(m.duration),
     imageUrl: m.imageUrl,
-    dateReleased: m.dateReleased.toString()
+    dateReleased: m.dateReleased.toString(),
+    plot: m.plot
   }))
 }
 
@@ -159,4 +176,4 @@ const updateMovieById = async (
   return await moviesCollection.findOne({ _id: new ObjectId(movieId) })
 }
 
-export { createMovie, getAllMovies, getMovieById, removeMovieById, updateMovieById }
+export { createMovie, getAllMovies, getMovieById, removeMovieById, updateMovieById, getMoviePageList }

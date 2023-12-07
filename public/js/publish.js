@@ -1,4 +1,3 @@
-console.log('1111')
 var form = layui.form;
 form.verify({
     title: function (value, elem) {
@@ -45,20 +44,37 @@ form.verify({
         }
     },
 });
+
+var index = -1
 form.on('submit(publish)', function (data) {
-    console.log(data)
+    if (index !== -1) {
+        return false
+    }
+    index = layer.msg('Loading...', {
+        icon: 16,
+        shade: 0.01
+    });;
+
     var formData = new FormData(data.elem)
-    var values = form.val('publish');
     $.post({
         url: '/admin/movies',
         data: formData,
         processData: false,
         contentType: false,
         success: (data) => {
-            console.log(data)
+            if (data.success) {
+                layer.msg("Publish successfully.")
+                window.setTimeout(() => {
+                    window.location.href = '/'
+                }, 1000)
+            }
         },
         error: (e) => {
             layer.msg(e?.responseJSON?.error ?? 'error');
+        },
+        complete: () => {
+            layer.close(index);
+            index = -1
         }
     })
     return false;

@@ -1,20 +1,11 @@
-import loginRoutes from './login.js';
-import logoutRoutes from './logout.js';
-import registerRoutes from './register.js';
 import adminRoutes from './admin.js';
-import protectedRoutes from './protected.js';
-import moviesRoutes from './movies.js';
+import home from './home.js';
 
 const constructorMethod = (app) => {
-  app.use('/register', registerRoutes);
-  app.use('/login', loginRoutes);
+  app.use('/', home);
   app.use('/admin', adminRoutes);
-  app.use('/protected', protectedRoutes);
-  app.use('/logout', logoutRoutes);
-  // app.use('/admin/movies', moviesRoutes);
-
   app.use('*', (req, res) => {
-    res.redirect('/');
+    res.status(404).send('404')
   });
 };
 

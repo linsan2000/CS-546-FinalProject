@@ -35,87 +35,20 @@ app.use(
 
 app.use('/', (req, res, next) => {
     console.log(`[${new Date().toUTCString()}]: ${req.method} ${req.originalUrl} (${req.session.user ? 'Authenticated User' : 'Non-Authenticated User'})`);
+    next()
+});
+
+app.use('/admin', (req, res, next) => {
     if (req.session.user) {
         if (req.session.user.role === 'admin') {
-            if (!req.originalUrl.startsWith('/admin') && !req.originalUrl.startsWith('/protected') && req.originalUrl !== '/logout') {
-                res.redirect('/admin' + req.originalUrl);
-            } else {
-                next();
-            }
-        } else if (req.session.user.role === 'user') {
-            if (!req.originalUrl.startsWith('/protected') && req.originalUrl !== '/logout') {
-                res.redirect('/protected' + req.originalUrl);
-            } else {
-                next();
-            }
+            next();
         } else {
-            throw `Invalid user role: ${req.session.user.role}`;
-        }
-    } else {
-        if (req.originalUrl !== '/login' && req.originalUrl !== '/register') {
             res.redirect('/login');
-        } else {
-            next();
-        }
-    }
-});
-
-app.use('/login', (req, res, next) => {
-    if (req.session.user) {
-        if (req.session.user.role === 'admin') {
-            res.redirect('/admin' + req.originalUrl);
-        } else if (req.session.user.role === 'user') {
-            res.redirect('/protected' + req.originalUrl);
-        }
-    } else {
-        next();
-    }
-});
-
-
-app.get('/register', (req, res, next) => {
-    if (req.session.user) {
-        if (req.session.user.role === 'admin') {
-            res.redirect('/admin' + req.originalUrl);
-        } else if (req.session.user.role === 'user') {
-            res.redirect('/protected' + req.originalUrl);
-        }
-    } else {
-        next();
-    }
-});
-
-app.get('/protected', (req, res, next) => {
-    if (req.session.user) {
-        next();
-    } else {
-        res.redirect('/login');
-    }
-});
-
-app.get('/admin', (req, res, next) => {
-    if (req.session.user) {
-        if (req.session.user.role === 'admin') {
-            next();
-        } else {
-            return res.status(403).render('error', {
-                code: 403,
-                error: 'user does not have permission to view the page',
-            });
         }
     } else {
         res.redirect('/login');
     }
 });
-
-app.get('/logout', (req, res, next) => {
-    if (req.session.user) {
-        next();
-    } else {
-        res.redirect('/login');
-    }
-});
-
 configRoutes(app);
 
 app.listen(3000, () => {

@@ -4,7 +4,7 @@ import { reviewsData } from "./index.js"
 import { ObjectId } from 'mongodb'
 import bcrypt from 'bcrypt';
 
-const saltRounds = 2;
+const saltRounds = 0;
 const usersCollection = await users()
 
 const registerUser = async (
@@ -30,7 +30,7 @@ const registerUser = async (
   if (!usersCollection) {
     throw 'usersCollection can not be created'
   }
-  let user = await usersCollection.findOne({ email: newUser.email })
+  let user = await usersCollection.findOne({ emailAddress: newUser.email })
   if (user) {
     throw 'emailAddress already existed'
   }

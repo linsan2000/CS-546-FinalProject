@@ -15,19 +15,25 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage })
 
-router
-    .route('/')
-    .get(async (req, res) => {
-        const user = req.session.user;
-        const isAdmin = user.role === 'admin';
-        const movies = await moviesData.getAllMovies();
-        return res.render('home', {
-            user: user,
-            isAdmin: isAdmin,
-            movies: movies,
-            currentTime: new Date().toLocaleTimeString()
-        });
-    });
+// router
+//     .route('/')
+//     .get(async (req, res) => {
+//         console.log("11111")
+//         let page = isNumberString(req.query.page) ? parseInt(req.query.page) : 1;
+//         let limit = isNumberString(req.query.limit) ? parseInt(req.query.limit) : 10;
+//         const user = req.session.user;
+//         const isAdmin = user.role === 'admin';
+//         const movies = await moviesData.getMoviePageList({
+//             page,
+//             limit
+//         });
+//         console.log(movies)
+//         return res.render('home', {
+//             user: user,
+//             isAdmin: isAdmin,
+//             movies: movies,
+//         });
+//     });
 
 router
     .route('/publish')
