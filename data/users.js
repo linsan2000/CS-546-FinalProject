@@ -142,6 +142,7 @@ const loginUser = async (emailAddress, password) => {
   return {
     username: user.username,
     emailAddress: user.emailAddress,
+    userId: user._id.toString(),
     role: user.role
   }
 }

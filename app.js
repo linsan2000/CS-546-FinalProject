@@ -50,6 +50,7 @@ app.use('/admin', (req, res, next) => {
     }
 });
 app.use('/user', (req, res, next) => {
+    // console.log(req.session.user)
     if (req.session.user) {
         next();
     } else {

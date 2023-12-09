@@ -1,7 +1,7 @@
 import express from 'express';
 const router = express.Router();
 import helperMethods from '../helpers.js';
-
+import { createReview, getAllReviewsByMovieId, getAllReviewsByUserId, deleteAllReviewsByUserId, getReviewById, removeReviewById } from '../data/reviews.js'
 
 router
   .route('/review')
@@ -12,7 +12,8 @@ router
     }
 
     try {
-      let { movieId, userId, reviewTitle, reviewDate, review, rating } = data;
+      let userId = req.session.user.userId;
+      let { movieId, reviewTitle, reviewDate, review, rating } = data;
       userId = helperMethods.getValidId(userId);
       movieId = helperMethods.getValidId(movieId);
       let {
