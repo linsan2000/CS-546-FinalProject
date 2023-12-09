@@ -7,6 +7,8 @@ const helperMethods = {
         director,
         dateReleased,
         duration,
+        overallRating,
+        numberOfRatings,
         imageUrl
     ) {
         if (!this.isAllExist([
@@ -16,6 +18,8 @@ const helperMethods = {
             director,
             dateReleased,
             duration,
+            overallRating,
+            numberOfRatings,
             imageUrl])) {
             throw "not all fields are provided"
         }
@@ -35,6 +39,9 @@ const helperMethods = {
         imageUrl = imageUrl.trim()
         duration = Number(duration)
         dateReleased = new Date(dateReleased)
+        overallRating = Number(overallRating)
+        numberOfRatings = Number(numberOfRatings)
+
         if (typeof duration !== 'number' || duration < 0) {
             throw "duration is not a valid number"
         }
@@ -49,6 +56,8 @@ const helperMethods = {
             directorValid: director,
             dateReleasedValid: dateReleased,
             durationValid: duration,
+            overallRatingValid: overallRating,
+            numberOfRatingsValid: numberOfRatings,
             imageUrlValid: imageUrl
         }
     },

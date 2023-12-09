@@ -1,12 +1,15 @@
 import helperMethods from "../helpers.js";
 import { reviews } from '../config/mongoCollections.js';
 import { ObjectId } from 'mongodb';
+import { createMovie, getAllMovies, getMovieById, removeMovieById, updateMovieById, getMoviePageList } from './movies.js'
 
 const reviewsCollection = await reviews()
 
 const createReview = async (movieId, userId, reviewTitle, reviewDate, review, rating) => {
   userId = helperMethods.getValidId(userId)
   movieId = helperMethods.getValidId(movieId)
+  let prevMovie = await getMovieById(movieId);
+  console.log(prevMovie)
   const movie = await reviewsCollection.find({ movieId: movieId, userId: userId }).toArray()
   if (movie.length !== 0) {
     throw "review already exists with that movieId and userId"
@@ -28,6 +31,21 @@ const createReview = async (movieId, userId, reviewTitle, reviewDate, review, ra
   if (!insertInfo.acknowledged || !insertInfo.insertedId) {
     throw 'Could not add review'
   }
+  /** Update rating for this movie */
+  prevMovie.overallRating =  (prevMovie.overallRating*prevMovie.numberOfRatings+ratingValid)/(prevMovie.numberOfRatings+1);
+  prevMovie.numberOfRatings = prevMovie.numberOfRatings + 1;
+  updateMovieById(
+    prevMovie._id,
+    prevMovie.title,
+    prevMovie.plot,
+    prevMovie.studio,
+    prevMovie.director,
+    prevMovie.dateReleased,
+    prevMovie.duration,
+    prevMovie.overallRating,
+    prevMovie.numberOfRatings,
+    prevMovie.imageUrl)
+  /** Return review detail */
   const newReviewId = insertInfo.insertedId.toString()
   const res = await getReviewById(newReviewId)
   return res

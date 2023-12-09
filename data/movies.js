@@ -15,6 +15,8 @@ const createMovie = async (movieInfo) => {
     director,
     dateReleased,
     duration,
+    0,
+    0,
     imageUrl
   )
   const newMovie = {
@@ -25,6 +27,7 @@ const createMovie = async (movieInfo) => {
     dateReleased: dateReleasedValid,
     duration: durationValid,
     overallRating: 0,
+    numberOfRatings:0,
     imageUrl: imageUrlValid
   }
   if (!moviesCollection) {
@@ -87,7 +90,7 @@ const getAllMovies = async () => {
 }
 
 const getMovieById = async (movieId) => {
-  movieIdValid = helperMethods.getValidId(movieId)
+  let movieIdValid = helperMethods.getValidId(movieId)
   const movie = await moviesCollection.findOne({ _id: new ObjectId(movieIdValid) })
   if (movie === null) {
     throw Object.assign(new Error('No movie with that movieId'), { name: '404' });
@@ -121,6 +124,7 @@ const updateMovieById = async (
   dateReleased,
   duration,
   overallRating,
+  numberOfRatings,
   imageUrl
 ) => {
   movieId = helperMethods.getValidId(movieId)
@@ -129,7 +133,7 @@ const updateMovieById = async (
     throw Object.assign(new Error('No movie with that movieId'), { name: '404' });
   }
   let {
-    titleValid, plotValid, studioValid, directorValid, dateReleasedValid, durationValid, overallRatingValid, imageUrlValid
+    titleValid, plotValid, studioValid, directorValid, dateReleasedValid, durationValid, overallRatingValid, numberOfRatingsValid, imageUrlValid
   } = helperMethods.getValidMovie(
     title,
     plot,
@@ -138,6 +142,7 @@ const updateMovieById = async (
     dateReleased,
     duration,
     overallRating,
+    numberOfRatings,
     imageUrl
   )
   const updatemovie = {
@@ -148,6 +153,7 @@ const updateMovieById = async (
     dateReleased: dateReleasedValid,
     duration: durationValid,
     overallRating: overallRatingValid,
+    numberOfRatings: numberOfRatingsValid,
     imageUrl: imageUrlValid,
   }
   let res = await moviesCollection.updateOne({ _id: new ObjectId(movieId) }, {
