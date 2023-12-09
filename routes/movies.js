@@ -22,41 +22,8 @@ router
       res.json({ success: true })
     }
     catch (e) {
-      console.error(e)
       res.status(400).json({ error: e });
     }
-    // const data = req.body;
-    // console.log(data)
-    // if (!data || Object.keys(data).length === 0) {
-    //   return res.status(400).json({ error: 'There are no fields in the request body' });
-    // }
-    // try {
-    //   let {
-    //     titleValid, plotValid, MPA_FilmRatingsValid, studioValid, directorValid, dateReleasedValid, durationValid, overallRatingValid, imageUrlValid
-    //   } = helperMethods.getValidMovie(
-    //     data.title,
-    //     data.plot,
-    //     data.MPA_FilmRatings,
-    //     data.studio,
-    //     data.director,
-    //     data.dateReleased,
-    //     data.duration,
-    //     data.overallRating,
-    //     data.imageUrl
-    //   )
-    //   const newPost = await createMovie(titleValid,
-    //     plotValid,
-    //     MPA_FilmRatingsValid,
-    //     studioValid,
-    //     directorValid,
-    //     dateReleasedValid,
-    //     durationValid,
-    //     overallRatingValid,
-    //     imageUrlValid);
-    //   res.status(200).json(newPost);
-    // } catch (e) {
-    //   res.status(400).json({ error: e });
-    // }
   });
 
 router

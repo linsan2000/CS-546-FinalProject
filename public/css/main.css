@@ -22,6 +22,9 @@ header .title{
 padding: 10px;
 display: flex;
 justify-content: center;
+height: calc(100vh - 78px);
+overflow: auto;
+position: relative;
 }
 .body-content-container {
     min-width: 800px;

@@ -1,0 +1,92 @@
+<div class="movie-container">
+    <div class="img-container">
+        <img class="movie-image" src="{{movie.imageUrl}}" />
+    </div>
+    <div class="movie-info-container">
+        <h1 class="movie-title">{{movie.title}}</h1>
+        <div class="info-container">
+            <div class="info-label">Director:</div>
+            <div class="info">{{movie.director}}</div>
+        </div>
+        <div class="info-container">
+            <div class="info-label">Studio:</div>
+            <div class="info">{{movie.studio}}</div>
+        </div>
+        <div class="info-container">
+            <div class="info-label">Duration:</div>
+            <div class="info">{{movie.duration}}</div>
+        </div>
+        <div class="info-container">
+            <div class="info-label">Date Released:</div>
+            <div class="info">{{movie.dateReleased}}</div>
+        </div>
+        <div class="info-container">
+            <div class="info-label">Plot:</div>
+            <div class="info">{{movie.plot}}</div>
+        </div>
+        <div class="stars-container">
+            <div>
+                <div class="movie-rate" lay-options="{value: 5}"></div>
+                <div class="stars-title">0 Reviews</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="review-btn-container">
+    <button class="layui-btn review-btn" onclick="review()">Review</button>
+</div>
+<style>
+    .movie-container {
+        height: calc(100% - 58px);
+    }
+
+    .movie-info-container {
+        background-color: white;
+        padding: 30px;
+        border-radius: 30px;
+        box-shadow: 2px 2px 3px 3px #ddd;
+    }
+
+    .img-container {
+        display: flex;
+        justify-content: center;
+        height: 200px;
+        padding: 10px;
+    }
+
+    .movie-image {
+        height: 200px;
+    }
+
+    .info-container {
+        font-size: 18px;
+        color: #333;
+    }
+
+    .info-label {
+        margin-top: 5px;
+        color: #666;
+    }
+
+    .stars-container {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .review-btn-container {
+        background-color: white;
+        padding: 10px;
+        display: flex;
+        justify-content: flex-end;
+    }
+</style>
+<script>
+    var rate = layui.rate;
+    rate.render({
+        elem: '.movie-rate',
+        readonly: true,
+    });
+    function review() {
+        console.log(window.isLogin)
+    }
+</script>

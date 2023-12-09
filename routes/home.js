@@ -10,19 +10,39 @@ router
         let page = isNumberString(req.query.page) ? parseInt(req.query.page) : 1;
         let limit = isNumberString(req.query.limit) ? parseInt(req.query.limit) : 10;
         const user = req.session.user;
-        const isAdmin = user?.role === 'admin';
         const movies = await moviesData.getMoviePageList({
             page,
             limit
         });
-        console.log(movies)
         return res.render('home', {
             user: user,
-            isAdmin: isAdmin,
             moviesData: movies,
         });
     });
-
+router
+    .route('/movie/:id')
+    .get(async (req, res) => {
+        const user = req.session.user;
+        try {
+            const movie = await moviesData.getMovieById(req.params.id);
+            if (!movie) {
+                return res.status(404).render({
+                    user: user,
+                    error: 'Movie not found.'
+                })
+            }
+            return res.render('detail', {
+                user: user,
+                movie: movie,
+            });
+        }
+        catch (e) {
+            return res.status(400).render('error', {
+                user: user,
+                error: e
+            })
+        }
+    });
 /**login */
 router.route('/login')
     .get(async (req, res) => {
@@ -30,7 +50,7 @@ router.route('/login')
             res.redirect('/')
         }
         else {
-            res.render('login', {
+            res.render('user/login', {
                 isLoginPage: true
             });
         }
@@ -82,7 +102,7 @@ router.route('/register')
             res.redirect('/')
         }
         else {
-            res.render('register', {
+            res.render('user/register', {
                 isLoginPage: true
             });
         }

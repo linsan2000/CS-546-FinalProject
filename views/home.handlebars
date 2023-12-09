@@ -1,8 +1,9 @@
 <div>
+    <link href="/public/css/home.css" rel="stylesheet" />
     <ol>
         {{#each moviesData.data}}
         <li>
-            <div class="movie-container">
+            <a class="movie-container" href="/movie/{{this._id}}">
                 <img class="movie-image" src="{{this.imageUrl}}" />
                 <div class="movie-info-container">
                     <h1 class="movie-title">{{this.title}}</h1>
@@ -26,8 +27,12 @@
                         <div class="info-label">Plot:</div>
                         <div class="info">{{this.plot}}</div>
                     </div>
+                    <div class="stars-container">
+                        <div class="movie-rate" lay-options="{value: 5}"></div>
+                        <div class="stars-title">0 Reviews</div>
+                    </div>
                 </div>
-            </div>
+            </a>
         </li>
         {{/each}}
     </ol>
@@ -35,44 +40,10 @@
         <div id="page"></div>
     </div>
 </div>
-<style>
-    .movie-container {
-        display: flex;
-        padding: 10px;
-        border: 1px solid rgb(243, 117, 117);
-        border-radius: 10px;
-        margin-bottom: 20px;
-    }
 
-    .movie-title {
-        color: #333;
-    }
-
-    .movie-image {
-        width: 134px;
-        height: 200px;
-        border: 1px solid #eee;
-    }
-
-    .movie-info-container {
-        margin-left: 15px;
-    }
-
-    .info-label {
-        color: #666;
-    }
-
-    .info {
-        color: #333;
-        margin-left: 3px;
-    }
-
-    .info-container {
-        display: flex;
-    }
-</style>
 <script>
     var laypage = layui.laypage;
+    var rate = layui.rate;
     let url = new URL(window.location.href);
     laypage.render({
         elem: 'page',
@@ -81,8 +52,6 @@
         curr: {{ moviesData.curr }},
         next: 'Next',
         limit: {{ moviesData.limit }},
-        {{!-- layout: 'limit',
-        limits: [10, 20, 40, 80, 100], --}}
         limitTemplet: function (item) {
             return item + ' / page';
         },
@@ -93,5 +62,9 @@
                 window.location.href = url.toString();
             }
         }
+    });
+    rate.render({
+        elem: '.movie-rate',
+        readonly: true
     });
 </script>
