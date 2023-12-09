@@ -1,4 +1,4 @@
-import helperMethods from "../helpers.js"
+import helperMethods, { formatDate } from "../helpers.js"
 import { movies } from '../config/mongoCollections.js'
 import { ObjectId } from 'mongodb'
 
@@ -27,7 +27,7 @@ const createMovie = async (movieInfo) => {
     dateReleased: dateReleasedValid,
     duration: durationValid,
     overallRating: 0,
-    numberOfRatings:0,
+    numberOfRatings: 0,
     imageUrl: imageUrlValid
   }
   if (!moviesCollection) {
@@ -66,8 +66,19 @@ const getMoviePageList = async ({ page, limit, queryStr }) => {
   let movieList = await moviesCollection.find({}).sort({
     dateReleased: 1
   }).skip((page - 1) * limit).limit(limit);
+  let data = await movieList.toArray()
   return {
-    data: await movieList.toArray(),
+    data: data.map(m => ({
+      title: m.title,
+      _id: m._id.toString(),
+      director: m.director,
+      studio: m.studio,
+      duration: getDurationStr(m.duration),
+      imageUrl: m.imageUrl,
+      dateReleased: formatDate(m.dateReleased, 'dd/MM/yyyy'),
+      plot: m.plot,
+      overallRating: m.overallRating
+    })),
     curr: page,
     limit: limit,
     total: await movieList.count()

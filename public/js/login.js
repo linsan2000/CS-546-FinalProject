@@ -1,4 +1,5 @@
 
+
 function isValidEmailAddress(emailAddress) {
     let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
     return emailRegex.test(emailAddress)
@@ -47,8 +48,9 @@ form.on('submit(login)', function (data) {
         success: (data) => {
             if (data.success) {
                 layer.msg("Login successfully.")
+                let returnUrl = new URL(window.location.href).searchParams.get('return')
                 window.setTimeout(() => {
-                    window.location.href = '/'
+                    window.location.href = returnUrl ?? '/'
                 }, 1000)
             }
         },

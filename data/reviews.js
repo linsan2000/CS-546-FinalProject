@@ -5,25 +5,23 @@ import { createMovie, getAllMovies, getMovieById, removeMovieById, updateMovieBy
 
 const reviewsCollection = await reviews()
 
-const createReview = async (movieId, userId, reviewTitle, reviewDate, review, rating) => {
+const createReview = async (movieId, userId, review, rating) => {
   userId = helperMethods.getValidId(userId)
   movieId = helperMethods.getValidId(movieId)
   let prevMovie = await getMovieById(movieId);
-  console.log(prevMovie)
   const movie = await reviewsCollection.find({ movieId: movieId, userId: userId }).toArray()
   if (movie.length !== 0) {
     throw "review already exists with that movieId and userId"
   }
   let {
-    reviewTitleValid, reviewDateValid, reviewValid, ratingValid
+    reviewValid, ratingValid
   } = helperMethods.getValidReview(
-    reviewTitle, reviewDate, review, rating
+    review, rating
   )
   const newReview = {
     movieId: movieId,
     userId: userId,
-    reviewTitle: reviewTitleValid,
-    reviewDate: reviewDateValid,
+    reviewDate: new Date(),
     review: reviewValid,
     rating: ratingValid
   }
@@ -32,7 +30,7 @@ const createReview = async (movieId, userId, reviewTitle, reviewDate, review, ra
     throw 'Could not add review'
   }
   /** Update rating for this movie */
-  prevMovie.overallRating =  (prevMovie.overallRating*prevMovie.numberOfRatings+ratingValid)/(prevMovie.numberOfRatings+1);
+  prevMovie.overallRating = (prevMovie.overallRating * prevMovie.numberOfRatings + ratingValid) / (prevMovie.numberOfRatings + 1);
   prevMovie.numberOfRatings = prevMovie.numberOfRatings + 1;
   updateMovieById(
     prevMovie._id,

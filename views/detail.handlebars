@@ -26,67 +26,80 @@
         </div>
         <div class="stars-container">
             <div>
-                <div class="movie-rate" lay-options="{value: 5}"></div>
-                <div class="stars-title">0 Reviews</div>
+                <div class="movie-rate" lay-options="{value:{{movie.overallRating}}  }"></div>
+                <div class="stars-title">{{movie.numberOfRatings}} Reviews</div>
+            </div>
+        </div>
+    </div>
+    <div class="reviews-container">
+        <ol>
+            {{#each reviews}}
+            <li>
+
+                <div class="review-item-container">
+                    <div class="review-item-top">
+                        <div class="movie-rate" lay-options="{value:{{this.rating}}  }"></div>
+                        <div class="review-date">
+                            {{this.reviewDate}}
+                        </div>
+                    </div>
+                    <div class="review-content">
+                        {{this.review}}
+                    </div>
+                </div>
+            </li>
+            {{/each}}
+        </ol>
+    </div>
+</div>
+
+<div class="review-btn-container">
+    {{#if myReview}}
+    <button class="layui-btn review-btn layui-btn-danger" onclick="review()">My Review</button>
+    {{else}}
+    <button class="layui-btn review-btn" onclick="review()">Review</button>
+    {{/if}}
+</div>
+{{#if myReview}}
+<div class="review-overlay" id="reviewPanel">
+    <div class="review-container">
+        <div class="review-panel-container">
+            <div class="review-title">My Review</div>
+            <div>
+                <div class="review-rate-container">
+                    <div class="movie-rate" lay-options="{value:{{myReview.rating}}  }"></div>
+                </div>
+                <div>
+                    <textarea id="review" readonly placeholder="{{myReview.review}}" class="layui-textarea"></textarea>
+                </div>
+                <div class="review-btns">
+                    <button class="layui-btn layui-btn-danger" onclick="hideReview()">Close</button>
+                </div>
             </div>
         </div>
     </div>
 </div>
-<div class="review-btn-container">
-    <button class="layui-btn review-btn" onclick="review()">Review</button>
+{{else}}
+<div class="review-overlay" id="reviewPanel">
+    <div class="review-container">
+        <div class="review-panel-container">
+            <div class="review-title">Review the movie</div>
+            <div>
+                <div class="review-rate-container">
+                    <div id="review-rate"></div>
+                </div>
+                <div>
+                    <textarea id="review" placeholder="Say something." class="layui-textarea"></textarea>
+                </div>
+                <div class="review-btns">
+                    <button class="layui-btn" onclick="submitReview()">Submit</button>
+                    <button class="layui-btn layui-btn-danger" onclick="hideReview()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<style>
-    .movie-container {
-        height: calc(100% - 58px);
-    }
+{{/if}}
 
-    .movie-info-container {
-        background-color: white;
-        padding: 30px;
-        border-radius: 30px;
-        box-shadow: 2px 2px 3px 3px #ddd;
-    }
-
-    .img-container {
-        display: flex;
-        justify-content: center;
-        height: 200px;
-        padding: 10px;
-    }
-
-    .movie-image {
-        height: 200px;
-    }
-
-    .info-container {
-        font-size: 18px;
-        color: #333;
-    }
-
-    .info-label {
-        margin-top: 5px;
-        color: #666;
-    }
-
-    .stars-container {
-        display: flex;
-        justify-content: flex-end;
-    }
-
-    .review-btn-container {
-        background-color: white;
-        padding: 10px;
-        display: flex;
-        justify-content: flex-end;
-    }
-</style>
-<script>
-    var rate = layui.rate;
-    rate.render({
-        elem: '.movie-rate',
-        readonly: true,
-    });
-    function review() {
-        console.log(window.isLogin)
-    }
-</script>
+<link href="/public/css/detail.css" rel="stylesheet" />
+<script src="/public/js/detail.js"></script>

@@ -1,0 +1,120 @@
+.review-rate-container {
+    display: flex;
+    justify-content: center;
+}
+
+.review-btns {
+    margin-top: 10px;
+}
+
+.review-btns:first-child {
+    margin-right: 10px;
+}
+
+.review-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.review-container {
+    width: 500px;
+    background-color: white;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.review-title {
+    font-size: 20px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.review-overlay-show {
+    animation: show 0.5s ease-in forwards;
+    display: flex;
+}
+
+@keyframes show {
+    form {
+        background-color: rgba(0, 0, 0, 0);
+    }
+
+    to {
+        background-color: rgba(0, 0, 0, 0.2);
+    }
+}
+
+
+.movie-container {
+    height: calc(100% - 58px);
+    overflow: auto;
+}
+
+.movie-info-container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 30px;
+    box-shadow: 2px 2px 3px 3px #ddd;
+}
+
+.img-container {
+    display: flex;
+    justify-content: center;
+    height: 200px;
+    padding: 10px;
+}
+
+.movie-image {
+    height: 200px;
+}
+
+.info-container {
+    font-size: 18px;
+    color: #333;
+}
+
+.info-label {
+    margin-top: 5px;
+    color: #666;
+}
+
+.stars-container {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.review-btn-container {
+    background-color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: flex-end;
+    border-top: 2px solid #eee;
+}
+
+.reviews-container{
+    background-color: white;
+    padding: 30px;
+    border-radius: 30px;
+    box-shadow: 2px 2px 3px 3px #ddd;
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+.review-item-container{
+    border: 1px solid #eee;
+    padding: 10px;
+    padding-top: 0;
+}
+.review-item-top{
+    display: flex;
+    align-items: center;
+}
+.review-date{
+    color: #999;
+    margin-left: auto;
+}

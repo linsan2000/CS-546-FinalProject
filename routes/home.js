@@ -1,8 +1,9 @@
 import express from 'express';
 const router = express.Router();
-import { moviesData, usersData } from '../data/index.js';
+import { moviesData, reviewsData, usersData } from '../data/index.js';
 import { isNumberString } from 'class-validator';
-import helperMethods from '../helpers.js'
+import helperMethods, { formatDate } from '../helpers.js'
+import { reviews } from '../config/mongoCollections.js';
 /*home page */
 router
     .route('/')
@@ -31,9 +32,23 @@ router
                     error: 'Movie not found.'
                 })
             }
+
+            //get all reviews 
+            const reviewsCollection = await reviews()
+            let allReviews = (await reviewsCollection.find({
+                movieId: req.params.id
+            }).toArray()).map(m => ({
+                ...m,
+                reviewDate: formatDate(m.reviewDate, 'dd/MM/yyyy hh:mm:ss')
+            }))
+            //the review of current login user
+            let currentUserReview = allReviews.find(m => m.userId === user?.userId)
+
             return res.render('detail', {
                 user: user,
                 movie: movie,
+                reviews: allReviews,
+                myReview: currentUserReview
             });
         }
         catch (e) {

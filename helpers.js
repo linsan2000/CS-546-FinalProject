@@ -61,25 +61,22 @@ const helperMethods = {
             imageUrlValid: imageUrl
         }
     },
-    getValidReview(reviewTitle, reviewDate, review, rating) {
+    getValidReview(review, rating) {
         if (!this.isAllExist([
-            reviewTitle, reviewDate, review, rating])) {
+            review, rating])) {
             throw "not all fields are provided"
         }
         if (!this.isParamsStringAndNotJustEmptySpaces([
-            reviewTitle, reviewDate, review
+            review
         ])) {
-            throw "reviewTitle, reviewDate, review not strings or empty strings"
+            throw "review not strings or empty strings"
         }
-        reviewTitle = reviewTitle.trim()
-        reviewDate = reviewDate.trim()
         review = review.trim()
+        rating = Number(rating)
         if (typeof rating !== 'number' || rating < 0 || rating > 5) {
             throw "rating is not a valid number"
         }
         return {
-            reviewTitleValid: reviewTitle,
-            reviewDateValid: reviewDate,
             reviewValid: review,
             ratingValid: rating
         }
@@ -196,6 +193,26 @@ const helperMethods = {
 
         return true
     },
+}
+export function formatDate(dateTime, format = 'yyyy-MM-dd hh:mm:ss') {
+    const date = typeof dateTime === 'string' ? getDateFromStr(dateTime) : dateTime;
+    try {
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        const hour = date.getHours();
+        const minute = date.getMinutes();
+        const second = date.getSeconds();
+        const milSecond = date.getMilliseconds();
+        format = format.replace('yyyy', date.getFullYear().toString());
+        format = format.replace('yy', date.getFullYear().toString().substring(2, 4));
+        format = format.replace('MM', month < 10 ? '0' + month : month.toString());
+        format = format.replace('dd', day < 10 ? '0' + day : day.toString());
+        format = format.replace('hh', hour < 10 ? '0' + hour : hour.toString());
+        format = format.replace('mm', minute < 10 ? '0' + minute : minute.toString());
+        format = format.replace('ss', second < 10 ? '0' + second : second.toString());
+        format = format.replace('ms', milSecond < 10 ? '0' + milSecond : milSecond.toString());
+    } catch { }
+    return format;
 }
 
 export default helperMethods

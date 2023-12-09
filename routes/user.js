@@ -10,19 +10,18 @@ router
     if (!data || Object.keys(data).length === 0) {
       return res.status(400).json({ error: 'There are no fields in the request body' });
     }
-
     try {
       let userId = req.session.user.userId;
-      let { movieId, reviewTitle, reviewDate, review, rating } = data;
+      let { movieId, review, rating } = data;
       userId = helperMethods.getValidId(userId);
       movieId = helperMethods.getValidId(movieId);
       let {
-        reviewTitleValid, reviewDateValid, reviewValid, ratingValid
+        reviewValid, ratingValid
       } = helperMethods.getValidReview(
-        reviewTitle, reviewDate, review, rating
+        review, rating
       )
-      const event = await createReview(movieId, userId, reviewTitleValid, reviewDateValid, reviewValid, ratingValid)
-      return res.status(200).json(event);
+      await createReview(movieId, userId, reviewValid, ratingValid)
+      return res.status(200).json({ success: true });
     } catch (e) {
       if (e.name === '404') {
         res.status(404).json({ error: e.message });
