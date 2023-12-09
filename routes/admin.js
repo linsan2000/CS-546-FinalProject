@@ -15,32 +15,12 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage })
 
-// router
-//     .route('/')
-//     .get(async (req, res) => {
-//         console.log("11111")
-//         let page = isNumberString(req.query.page) ? parseInt(req.query.page) : 1;
-//         let limit = isNumberString(req.query.limit) ? parseInt(req.query.limit) : 10;
-//         const user = req.session.user;
-//         const isAdmin = user.role === 'admin';
-//         const movies = await moviesData.getMoviePageList({
-//             page,
-//             limit
-//         });
-//         console.log(movies)
-//         return res.render('home', {
-//             user: user,
-//             isAdmin: isAdmin,
-//             movies: movies,
-//         });
-//     });
-
 router
     .route('/publish')
     .get(async (req, res) => {
         const user = req.session.user;
         const isAdmin = user.role === 'admin';
-        return res.render('publish', {
+        return res.render('admin/publish', {
             user: user
         });
     });
@@ -66,6 +46,55 @@ router
             res.status(400).json({ error: error })
         }
     });
+
+router
+    .route('/:userId')
+    .get(async (req, res) => {    // getUserById
+        try {
+            const event = await getUserById(helperMethods.getValidId(req.params.userId))
+            return res.status(200).json(event);
+
+        } catch (e) {
+            if (e.name === '404') {
+                res.status(404).json({ error: e.message });
+            } else if (e.message) {
+                res.status(400).json({ error: e.message });
+            } else res.status(400).json({ error: e });
+        }
+    })
+    .delete(async (req, res) => {   // removeUserById
+        try {
+            const event = await removeUserById(helperMethods.getValidId(req.params.userId))
+            return res.status(200).json(event);
+
+        } catch (e) {
+            if (e.name === '404') {
+                res.status(404).json({ error: e.message });
+            } else if (e.message) {
+                res.status(400).json({ error: e.message });
+            } else res.status(400).json({ error: e });
+        }
+    })
+    .put(async (req, res) => {  // updateUserById
+        try {
+            let { username, password, email, isAdmin } = req.body
+            let { usernameValid, emailValid, isAdminValid, passwordValid,
+            } = helperMethods.getValidUser(
+                username,
+                password,
+                email,
+                isAdmin
+            )
+            const event = await updateUserById(helperMethods.getValidId(req.params.userId), usernameValid, passwordValid, emailValid, isAdminValid)
+            return res.status(200).json(event);
+        } catch (e) {
+            if (e.name === '404') {
+                res.status(404).json({ error: e.message });
+            } else if (e.message) {
+                res.status(400).json({ error: e.message });
+            } else res.status(400).json({ error: e });
+        }
+    })
 
 /**
  * validate date fields 

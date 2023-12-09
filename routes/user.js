@@ -1,110 +1,26 @@
-import { registerUser, getAllUsers, getUserById, removeUserById, updateUserById, login } from '../data/users.js'
 import express from 'express';
 const router = express.Router();
 import helperMethods from '../helpers.js';
 
-router
-  .route('/')
-  .get(async (req, res) => {  // getAllUsers
-    const user = req.session.user;
-    const isAdmin = user.role === 'admin';
-
-    return res.render('protected', {
-      firstName: user.firstName,
-      lastName: user.lastName,
-      currentTime: new Date().toLocaleTimeString(),
-      role: user.role,
-      isAdmin: isAdmin
-    });
-  });
-
-
 
 router
-  .route('/register')
-  .post(async (req, res) => {   // registerUser
-    try {
-      let { username, password, email, confirmPassword, isAdmin } = req.body;
-      let { usernameValid, emailValid, isAdminValid, passwordValid,
-      } = helperMethods.getValidUser(
-        username,
-        password,
-        email,
-        isAdmin
-      )
-      if (confirmPassword !== password) throw 'It should be the same value as passwordInput'
-      const event = await registerUser(usernameValid, emailValid, passwordValid, isAdminValid)
-      return res.status(200).json(event);
-    } catch (e) {
-      if (e.name === '404') {
-        res.status(404).json({ error: e.message });
-      } else if (e.message) {
-        res.status(400).json({ error: e.message });
-      } else res.status(400).json({ error: e });
+  .route('/review')
+  .post(async (req, res) => {  // createReview
+    const data = req.body;
+    if (!data || Object.keys(data).length === 0) {
+      return res.status(400).json({ error: 'There are no fields in the request body' });
     }
-  });
 
-router
-  .route('/:userId')
-  .get(async (req, res) => {    // getUserById
     try {
-      const event = await getUserById(helperMethods.getValidId(req.params.userId))
-      return res.status(200).json(event);
-
-    } catch (e) {
-      if (e.name === '404') {
-        res.status(404).json({ error: e.message });
-      } else if (e.message) {
-        res.status(400).json({ error: e.message });
-      } else res.status(400).json({ error: e });
-    }
-  })
-  .delete(async (req, res) => {   // removeUserById
-    try {
-      const event = await removeUserById(helperMethods.getValidId(req.params.userId))
-      return res.status(200).json(event);
-
-    } catch (e) {
-      if (e.name === '404') {
-        res.status(404).json({ error: e.message });
-      } else if (e.message) {
-        res.status(400).json({ error: e.message });
-      } else res.status(400).json({ error: e });
-    }
-  })
-  .put(async (req, res) => {  // updateUserById
-    try {
-      let { username, password, email, isAdmin } = req.body
-      let { usernameValid, emailValid, isAdminValid, passwordValid,
-      } = helperMethods.getValidUser(
-        username,
-        password,
-        email,
-        isAdmin
-      )
-      const event = await updateUserById(helperMethods.getValidId(req.params.userId), usernameValid, passwordValid, emailValid, isAdminValid)
-      return res.status(200).json(event);
-    } catch (e) {
-      if (e.name === '404') {
-        res.status(404).json({ error: e.message });
-      } else if (e.message) {
-        res.status(400).json({ error: e.message });
-      } else res.status(400).json({ error: e });
-    }
-  })
-
-router
-  .route('/login')
-  .post(async (req, res) => {  // login
-    try {
-      let { emailAddress, password } = req.body
+      let { movieId, userId, reviewTitle, reviewDate, review, rating } = data;
+      userId = helperMethods.getValidId(userId);
+      movieId = helperMethods.getValidId(movieId);
       let {
-        emailAddressValid, passwordValid,
-      } = helperMethods.getValidLogin(
-        emailAddress,
-        password,
+        reviewTitleValid, reviewDateValid, reviewValid, ratingValid
+      } = helperMethods.getValidReview(
+        reviewTitle, reviewDate, review, rating
       )
-      const event = await login(emailAddressValid, passwordValid)
+      const event = await createReview(movieId, userId, reviewTitleValid, reviewDateValid, reviewValid, ratingValid)
       return res.status(200).json(event);
     } catch (e) {
       if (e.name === '404') {
@@ -115,6 +31,59 @@ router
     }
   })
 
+router
+  .route('/review/:reviewId')
+  .get(async (req, res) => { // getReviewById
+    try {
+      const event = await getReviewById(helperMethods.getValidId(req.params.reviewId))
+      return res.status(200).json(event);
+    } catch (e) {
+      if (e.name === '404') {
+        res.status(404).json({ error: e.message });
+      } else if (e.message) {
+        res.status(400).json({ error: e.message });
+      } else res.status(400).json({ error: e });
+    }
+  })
+  .delete(async (req, res) => {  // removeReviewById
+    try {
+      const event = await removeReviewById(helperMethods.getValidId(req.params.reviewId))
+      return res.status(200).json(event);
+    } catch (e) {
+      if (e.name === '404') {
+        res.status(404).json({ error: e.message });
+      } else if (e.message) {
+        res.status(400).json({ error: e.message });
+      } else res.status(400).json({ error: e });
+    }
+  })
+
+router
+  .route('/reviews/:userId')
+  .get(async (req, res) => {  // getAllReviewsByUserId
+    try {
+      const event = await getAllReviewsByUserId(helperMethods.getValidId(req.params.userId))
+      return res.status(200).json(event);
+    } catch (e) {
+      if (e.name === '404') {
+        res.status(404).json({ error: e.message });
+      } else if (e.message) {
+        res.status(400).json({ error: e.message });
+      } else res.status(400).json({ error: e });
+    }
+  })
+  .delete(async (req, res) => {   // deleteAllReviewsByUserId
+    try {
+      const event = await deleteAllReviewsByUserId(helperMethods.getValidId(req.params.userId))
+      return res.status(200).json(event);
+    } catch (e) {
+      if (e.name === '404') {
+        res.status(404).json({ error: e.message });
+      } else if (e.message) {
+        res.status(400).json({ error: e.message });
+      } else res.status(400).json({ error: e });
+    }
+  });
 
 
 export default router;

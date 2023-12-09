@@ -49,6 +49,13 @@ app.use('/admin', (req, res, next) => {
         res.redirect('/login');
     }
 });
+app.use('/user', (req, res, next) => {
+    if (req.session.user) {
+        next();
+    } else {
+        res.redirect('/login');
+    }
+});
 configRoutes(app);
 
 app.listen(3000, () => {
