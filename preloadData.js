@@ -24,7 +24,8 @@ async function preloadData() {
       studio: movie.studio, 
       director: movie.Director,
       // dateReleased: movie.Released_Year.toString(), 
-      dateReleased: movie.Released_Year, 
+      // dateReleased: movie.Released_Year, 
+      dateReleased: dateReleased.toISOString(),
       duration: parseInt(movie.Runtime), 
       overallRating: movie.IMDB_Rating,
       imageUrl: movie.Poster_Link
