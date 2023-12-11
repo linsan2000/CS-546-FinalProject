@@ -18,6 +18,7 @@ async function preloadData() {
     // const db = await dbConnection();
     // await db.dropDatabase();
     const jsonData = await readJsonFile("imdb.json");
+    const dateReleased = new Date(movie.Released_Year, 0, 1);
     const transformedMoviesData = jsonData.map(movie => ({
       title: movie.Series_Title,
       plot: movie.Overview,
