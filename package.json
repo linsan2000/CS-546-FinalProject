@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node --inspect app.js"
+    "start": "node preloadData.js && node --inspect app.js"
   },
   "repository": {
     "type": "git",
