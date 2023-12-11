@@ -1,0 +1,42 @@
+{{!-- views/user/detail.handlebars --}}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="/path/to/your/css/style.css"> <!-- Make sure to link your CSS file -->
+</head>
+<body>
+    <div class="profile-container">
+        <!-- Profile Image -->
+        <div class="profile-image-row">
+            <img src="{{user.avatar}}" alt="Profile Picture" class="profile-avatar">
+        </div>
+        
+        <!-- Username -->
+        <div class="profile-username-row">
+            <h1>{{user.username}}</h1>
+        </div>
+        
+        <!-- Bio -->
+        <div class="profile-bio-row">
+            <p>{{user.bio}}</p>
+        </div>
+        
+        <!-- Join Date -->
+        <div class="profile-join-date-row">
+            <p>Joined on: {{user.joinDate}}</p>
+        </div>
+        
+        <!-- Edit Button -->
+        <div class="profile-edit-button-row">
+            <button onclick="location.href='/user/edit';">Edit Profile</button>
+        </div>
+    </div>
+
+    <!-- Optional: Link to JavaScript file -->
+    <script src="/path/to/your/js/script.js"></script>
+</body>
+</html>
