@@ -195,7 +195,11 @@ const helperMethods = {
     },
 }
 export function formatDate(dateTime, format = 'yyyy-MM-dd hh:mm:ss') {
-    const date = typeof dateTime === 'string' ? getDateFromStr(dateTime) : dateTime;
+    // const date = typeof dateTime === 'string' ? getDateFromStr(dateTime) : dateTime;
+    if (typeof dateTime === 'string') {
+        return dateTime
+    }
+    const date = dateTime;
     try {
         const month = date.getMonth() + 1;
         const day = date.getDate();
