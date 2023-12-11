@@ -62,8 +62,33 @@ function getDurationStr(duration) {
  * @param {*} param0 
  * @returns 
  */
-const getMoviePageList = async ({ page, limit, queryStr }) => {
-  let movieList = await moviesCollection.find({}).sort({
+const getMoviePageList = async ({ page, limit, q = '' }) => {
+  let reg = new RegExp(".*" + q + ".*$")
+  let movieList = await moviesCollection.find({
+    $or: [
+      {
+        title: {
+          $regex: reg,
+        }
+      },
+      {
+        director: {
+          $regex: reg,
+        }
+      },
+      {
+        studio: {
+          $regex: reg,
+        }
+      }
+      ,
+      {
+        plot: {
+          $regex: reg,
+        }
+      }
+    ]
+  }).sort({
     dateReleased: 1
   }).skip((page - 1) * limit).limit(limit);
   let data = await movieList.toArray()

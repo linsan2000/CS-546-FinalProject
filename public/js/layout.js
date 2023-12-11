@@ -50,4 +50,17 @@ $(() => {
             }
         });
     }
+
+    if (window.location.pathname === '/' || window.location.pathname === '') {
+        let url = new URL(window.location.href)
+        if (url.searchParams.has('q')) {
+            $('#show_search_term').val(url.searchParams.get('q'))
+        }
+        $('#search-container').show()
+        // document.getElementById('searchShows').onsubmit = (e) => {
+        //     let val = $('#show_search_term').val()
+        //     if (!val || val.trim().length === 0)
+        //         return false
+        // }
+    }
 })

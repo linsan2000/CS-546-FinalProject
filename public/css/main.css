@@ -30,3 +30,51 @@ position: relative;
     min-width: 800px;
     max-width: 1000px;
 }
+.search-container{
+
+}
+
+#search-container{
+    display: none;
+}
+#searchShows{
+    display: flex;
+    margin-left: 20px;
+}
+label[for='show_search_term']{
+    color: #666;
+    background-color: white;
+    line-height: 30px;
+    height: 30px;
+    display: inline-block;
+    border: 1px solid #eee;
+    border-right: none;
+    border-radius: 5px 0 0 5px;
+    padding-left: 10px;
+}
+.submit-btn{
+    background-color: dodgerblue;
+    color: white;
+    height: 32px;
+    line-height: 32px;
+    border-radius: 0 15px 15px 0;
+    padding: 0 20px;
+    border: none;
+}
+.submit-btn:hover{
+    opacity: 0.8;
+}
+.submit-btn:active{
+    opacity:1;
+}
+#show_search_term{
+    line-height: 30px;
+    padding: 0 10px;
+    border: 1px solid #eee;
+    width: 200px;
+    border-left: none;
+    border-right: none;
+}
+input:focus {
+    outline: none;
+}

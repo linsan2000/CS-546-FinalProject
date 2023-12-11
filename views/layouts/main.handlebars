@@ -14,6 +14,13 @@
 <body>
     <header class="header-container">
         <a class="title" href="/">Movie Reviews</a>
+        <div class="search-container" id="search-container">
+            <form id="searchShows">
+                <label for="show_search_term">Search</label>
+                <input name="q" id="show_search_term" type="text" />
+                <button type="submit" class="submit-btn">Submit</button>
+            </form>
+        </div>
         <div class="user-info-container">
             {{#if user}}
             <button class="layui-btn layui-bg-red" id="userInfo_{{user.role}}">

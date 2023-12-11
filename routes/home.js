@@ -10,10 +10,12 @@ router
     .get(async (req, res) => {
         let page = isNumberString(req.query.page) ? parseInt(req.query.page) : 1;
         let limit = isNumberString(req.query.limit) ? parseInt(req.query.limit) : 10;
+        let q = req.query.q;
         const user = req.session.user;
         const movies = await moviesData.getMoviePageList({
             page,
-            limit
+            limit,
+            q
         });
         return res.render('home', {
             user: user,
