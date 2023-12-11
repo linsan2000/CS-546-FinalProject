@@ -22,7 +22,6 @@ async function preloadData() {
     const transformedMoviesData = jsonData.map(movie => ({
       title: movie.Series_Title,
       plot: movie.Overview,
-      MPA_FilmRatings: movie.Certificate,
       studio: movie.studio, 
       director: movie.Director,
       dateReleased: movie.Released_Year.toString(), 
