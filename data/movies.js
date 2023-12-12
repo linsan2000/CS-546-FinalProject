@@ -90,8 +90,9 @@ const getMoviePageList = async ({ page, limit, q = '' }) => {
     ]
   }).sort({
     dateReleased: 1
-  }).skip((page - 1) * limit).limit(limit);
-  let data = await movieList.toArray()
+  });
+  let total = await movieList.count()
+  let data = await movieList.skip((page - 1) * limit).limit(limit).toArray()
   return {
     data: data.map(m => ({
       ...m,
@@ -101,7 +102,7 @@ const getMoviePageList = async ({ page, limit, q = '' }) => {
     })),
     curr: page,
     limit: limit,
-    total: await movieList.count()
+    total: total
   }
 }
 const getAllMovies = async () => {

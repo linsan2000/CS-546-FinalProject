@@ -21,7 +21,7 @@ async function preloadData() {
       studio: movie.studio,
       director: movie.Director,
       dateReleased: new Date(movie.Released_Date),
-      duration: parseInt(movie.Runtime),
+      duration: parseInt(movie.Runtime) * 60,
       overallRating: movie.IMDB_Rating,
       imageUrl: movie.Poster_Link
     }));

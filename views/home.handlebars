@@ -3,7 +3,7 @@
     <ol>
         {{#each moviesData.data}}
         <li>
-            <a class="movie-container" href="/movie/{{this._id}}">
+            <a class="movie-container movie-container-{{this.isRecommanded}}" href="/movie/{{this._id}}">
                 <img class="movie-image" src="{{this.imageUrl}}" />
                 <div class="movie-info-container">
                     <h1 class="movie-title">{{this.title}}</h1>
@@ -32,6 +32,11 @@
                         <div class="stars-title">{{this.numberOfRatings}} Reviews</div>
                     </div>
                 </div>
+                {{#if this.isRecommanded}}
+                <div class="isRecommanded">
+                    Recommended Movie
+                </div>
+                {{/if}}
             </a>
         </li>
         {{/each}}

@@ -62,3 +62,31 @@
     width: 100%;
     bottom: -10px;
 }
+.movie-container-true{
+    background-color: rgb(239, 147, 147);
+    box-shadow: 5px 5px 5px 5px rgb(249, 166, 166);
+    position: relative;
+}
+.movie-container-true:hover {
+    background-color: rgb(239, 147, 147);
+    cursor: pointer;
+    animation: movie1 0.2s linear forwards;
+}
+
+@keyframes movie1 {
+    to {
+        scale: 1.02;
+        box-shadow: 5px 5px 5px 5px rgb(245, 178, 178);
+        transform: translateX(100)
+    }
+}
+
+.isRecommanded{
+    color: white;
+    font-weight: bold;
+    font-size: 30px;
+    opacity: 0.5;
+    position: absolute;
+    right: 10px;
+    top:10px;
+}

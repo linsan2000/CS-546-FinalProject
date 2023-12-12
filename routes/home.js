@@ -3,24 +3,35 @@ const router = express.Router();
 import { moviesData, usersData } from '../data/index.js';
 import { isNumberString } from 'class-validator';
 import helperMethods, { formatDate } from '../helpers.js'
-import { reviews } from '../config/mongoCollections.js';
+import { reviews, movies } from '../config/mongoCollections.js';
 import { getDurationStr } from '../data/movies.js';
 /*home page */
 router
     .route('/')
     .get(async (req, res) => {
         let page = isNumberString(req.query.page) ? parseInt(req.query.page) : 1;
-        let limit = isNumberString(req.query.limit) ? parseInt(req.query.limit) : 10;
+        let limit = isNumberString(req.query.limit) ? parseInt(req.query.limit) : 5;
         let q = req.query.q;
         const user = req.session.user;
-        const movies = await moviesData.getMoviePageList({
+        const moviesPageData = await moviesData.getMoviePageList({
             page,
             limit,
             q
         });
+        let moviesCollection = await movies()
+        let total = await moviesCollection.find().count()
+        let index = Math.floor(total * Math.random());
+
+        if (total > 0) {
+            let recommandation = await await moviesCollection.find().sort({
+                title: 1
+            }).skip(index).limit(1).toArray();
+            recommandation[0].isRecommanded = true
+            moviesPageData.data.unshift(recommandation[0])
+        }
         return res.render('home', {
             user: user,
-            moviesData: movies,
+            moviesData: moviesPageData,
         });
     });
 router
