@@ -1,43 +1,14 @@
-{{!-- views/movies.handlebars --}}
-
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movies List</title>
-    <link rel="stylesheet" href="/css/detail.css">
+    <title>User Profile</title>
 </head>
 <body>
-    <div class="movies-container">
-        {{#each movies}}
-            <div class="movie">
-                <div class="movie-poster">
-                    <img src="{{this.imageUrl}}" alt="{{this.title}} Poster">
-                </div>
-                <div class="movie-title">
-                    <h2>{{this.title}}</h2>
-                </div>
-                <div class="movie-plot">
-                    <p>{{this.plot}}</p>
-                </div>
-                <div class="movie-director">
-                    <p>Directed by: {{this.director}}</p>
-                </div>
-                <div class="movie-studio">
-                    <p>Studio: {{this.studio}}</p>
-                </div>
-                <div class="movie-released">
-                    <p>Released: {{this.dateReleased}}</p>
-                </div>
-                <div class="movie-duration">
-                    <p>Duration: {{this.duration}} minutes</p>
-                </div>
-                <div class="movie-rating">
-                    <p>Rating: {{this.overallRating}} / 10</p>
-                </div>
-            </div>
-        {{/each}}
-    </div>
+    <h1>User Profile</h1>
+    <p>Username: {{username}}</p>
+    <p>Email: {{email}}</p>
+    <p>Name: {{firstName}} {{lastName}}</p>
+    <img src="{{avatar}}" alt="Profile Picture">
+    <a href="/logout">Logout</a>
 </body>
 </html>
