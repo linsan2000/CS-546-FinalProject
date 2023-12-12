@@ -14,5 +14,11 @@ export const dbConnection = async () => {
 };
 
 export const closeConnection = async () => {
-  await _connection.close()
+  try {
+    if (_connection) {
+      await _connection.close();
+    }
+  } catch (error) {
+    console.error('Error closing MongoDB connection:', error.message);
+  }
 };

@@ -1,6 +1,6 @@
 import express from 'express';
 const router = express.Router();
-import { moviesData, reviewsData, usersData } from '../data/index.js';
+import { moviesData, usersData } from '../data/index.js';
 import { isNumberString } from 'class-validator';
 import helperMethods, { formatDate } from '../helpers.js'
 import { reviews } from '../config/mongoCollections.js';
