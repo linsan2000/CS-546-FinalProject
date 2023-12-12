@@ -35,7 +35,8 @@ router
       movieId: m.movieId.toString(),
     }))
     return res.render('user/reviews', {
-      reviews: allReviews
+      reviews: allReviews,
+      user: req.session.user
     })
   })
 router
