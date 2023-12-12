@@ -1,8 +1,43 @@
 import express from 'express';
 const router = express.Router();
-import helperMethods from '../helpers.js';
+import helperMethods, { formatDate } from '../helpers.js';
+import { reviews } from '../config/mongoCollections.js';
 import { createReview, getAllReviewsByMovieId, getAllReviewsByUserId, deleteAllReviewsByUserId, getReviewById, removeReviewById } from '../data/reviews.js'
-
+router
+  .route('/reviews')
+  .get(async (req, res) => {
+    const reviewsCollection = await reviews()
+    let query = await reviewsCollection.aggregate([
+      {
+        $match: {
+          userId: req.session.user.userId,
+        }
+      }, {
+        $project: {
+          movieId: { $toObjectId: "$movieId" },
+          review: 1,
+          reviewDate: 1,
+          rating: 1
+        }
+      }, {
+        $lookup: {
+          from: 'movies',
+          localField: 'movieId',
+          foreignField: '_id',
+          as: 'movie_info'
+        }
+      }])
+    let allReviews = (await query.toArray()).map(m => ({
+      review: m.review,
+      reviewDate: formatDate(m.reviewDate, 'dd/MM/yyyy hh:mm:ss'),
+      title: m.movie_info[0]?.title ?? '',
+      rating: m.rating,
+      movieId: m.movieId.toString(),
+    }))
+    return res.render('user/reviews', {
+      reviews: allReviews
+    })
+  })
 router
   .route('/review')
   .post(async (req, res) => {  // createReview
@@ -84,6 +119,7 @@ router
       } else res.status(400).json({ error: e });
     }
   });
+
 
 
 export default router;

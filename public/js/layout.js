@@ -25,7 +25,7 @@ $(() => {
                     window.location.href = '/logout'
                 }
                 else if (obj.id === 2) {
-                    window.location.href = '/reviews'
+                    window.location.href = '/user/reviews'
                 }
             }
         });
@@ -42,11 +42,11 @@ $(() => {
                 title: 'My Reviews',
                 id: 3
             }, {
-                title: 'Logout',
-                id: 1
-            }, {
                 title: 'Add a movie',
                 id: 2
+            }, {
+                title: 'Logout',
+                id: 1
             }],
             click: function (obj) {
                 if (obj.id === 0) {
@@ -57,7 +57,7 @@ $(() => {
                 } else if (obj.id === 2) {
                     window.location.href = '/admin/publish'
                 } else if (obj.id === 3) {
-                    window.location.href = '/reviews'
+                    window.location.href = '/user/reviews'
                 }
             }
         });

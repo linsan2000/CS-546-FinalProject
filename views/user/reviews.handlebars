@@ -1,0 +1,26 @@
+<div class="reviews-container">
+    <ol>
+        {{#each reviews}}
+        <li>
+            <a href="/movie/{{this.movieId}}">
+                <div class="review-item-container">
+                    <div class="review-item-top">
+                        <div class="review-username">{{this.title}}</div>
+                        <div class="review-date">
+                            {{this.reviewDate}}
+                        </div>
+                    </div>
+                    <div class="review-content">
+                        {{this.review}}
+                    </div>
+                    <div class="movie-rate-container">
+                        <div class="movie-rate" lay-options="{value:{{this.rating}}  }"></div>
+                    </div>
+                </div>
+            </a>
+        </li>
+        {{/each}}
+    </ol>
+</div>
+<link href="/public/css/reviews.css" rel="stylesheet" />
+<script src="/public/js/reviews.js"></script>
