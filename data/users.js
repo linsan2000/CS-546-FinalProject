@@ -6,7 +6,10 @@ import bcrypt from 'bcrypt';
 
 const saltRounds = 0;
 const usersCollection = await users()
-
+export async function getEncodedPwd(password) {
+  const hash = await bcrypt.hash(password, saltRounds);
+  return hash
+}
 const registerUser = async (
   username,
   emailAddress,
@@ -34,7 +37,7 @@ const registerUser = async (
   if (user) {
     throw 'emailAddress already existed'
   }
-  const hash = await bcrypt.hash(newUser.password, saltRounds);
+  const hash = await getEncodedPwd(newUser.password);
   newUser.password = hash;
   const insertInfo = await usersCollection.insertOne(newUser)
   if (!insertInfo.acknowledged || !insertInfo.insertedId) {

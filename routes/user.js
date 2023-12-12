@@ -1,8 +1,10 @@
 import express from 'express';
+import { ObjectId } from 'mongodb'
 const router = express.Router();
 import helperMethods, { formatDate } from '../helpers.js';
-import { reviews } from '../config/mongoCollections.js';
+import { reviews, users } from '../config/mongoCollections.js';
 import { createReview, getAllReviewsByMovieId, getAllReviewsByUserId, deleteAllReviewsByUserId, getReviewById, removeReviewById } from '../data/reviews.js'
+import { getEncodedPwd } from '../data/users.js';
 router
   .route('/reviews')
   .get(async (req, res) => {
@@ -39,6 +41,52 @@ router
       user: req.session.user
     })
   })
+router
+  .route('/account')
+  .get(async (req, res) => {
+    return res.render('user/account', {
+      user: req.session.user
+    })
+  }).post(async (req, res) => {
+    try {
+      let { username, email, password } = req.body;
+      if (!helperMethods.isValidUsername(username)) {
+        return res.status(400).json({ error: 'Invalid username.' })
+      }
+      if (!helperMethods.isValidEmailAddress(email)) {
+        return res.status(400).json({ error: 'Invalid email address.' })
+      }
+      if (password && !helperMethods.isValidPassword(password)) {
+        return res.status(400).json({ error: '' })
+      }
+      try {
+        const userCollections = await users()
+        let fields = {
+          username: username,
+          emailAddress: email
+        }
+        if (password) {
+          fields.password = await getEncodedPwd(password)
+        }
+        await userCollections.updateOne({
+          _id: new ObjectId(req.session.user.userId)
+        }, {
+          $set: fields
+        })
+        req.session.user = {
+          ...req.session.user,
+          ...fields
+        }
+        return res.json({ success: true })
+      } catch (error) {
+        return res.status(400).json({ error: error })
+      }
+    } catch (error) {
+      return res.status(500).json({
+        error: 'Internal Server Error'
+      })
+    }
+  });
 router
   .route('/review')
   .post(async (req, res) => {  // createReview

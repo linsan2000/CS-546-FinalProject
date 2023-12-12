@@ -1,0 +1,83 @@
+<div class="account-container">
+    <div class="account-form-container">
+        <h1 class="account-title">My Account.</h1>
+        <form class="layui-form layui-form-pane" lay-filter="account" action="">
+            <div class="layui-form-item">
+                <label class="layui-form-label">Username</label>
+                <div class="layui-input-block">
+                    <input type="text" name="username" placeholder="Username" lay-verify="username" autocomplete="off"
+                        value="{{user.username}}" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">Email</label>
+                <div class="layui-input-block">
+                    <input type="email" name="email" placeholder="Email address" lay-verify="email" autocomplete="off"
+                        value="{{user.emailAddress}}" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">Password</label>
+                <div class="layui-input-block">
+                    <input type="password" name="password" placeholder="Password" lay-verify="password" id="password"
+                        autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">Confirm</label>
+                <div class="layui-input-block">
+                    <input type="password" name="password2" placeholder="Confirm password" lay-verify="password2"
+                        autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">Role</label>
+                <div class="layui-input-block">
+                    <input type="text" readonly class="layui-input" value="{{user.role}}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button type="submit" class="layui-btn" lay-submit lay-filter="account">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script>
+        const promiseA = Promise.resolve('a')
+        promiseA.then((res) => {
+            console.log(res)
+        }).then((res) => {
+            console.log(res)
+        })
+        const promiseB = Promise.resolve('b')
+        promiseB.then((res) => {
+            console.log(res)
+        })
+        promiseB.then((res) => {
+            console.log(res)
+        })
+    </script>
+    <script src="/public/js/account.js"></script>
+    <style>
+        .account-title {
+            color: white;
+            margin-top: 50px;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .account-form-container {
+            width: 400px;
+        }
+
+        .account-container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .account-btn {
+            color: white;
+        }
+    </style>
+</div>
