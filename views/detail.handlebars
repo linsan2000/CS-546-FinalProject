@@ -35,16 +35,18 @@
         <ol>
             {{#each reviews}}
             <li>
-
                 <div class="review-item-container">
                     <div class="review-item-top">
-                        <div class="movie-rate" lay-options="{value:{{this.rating}}  }"></div>
+                        <div class="review-username">{{this.username}}</div>
                         <div class="review-date">
                             {{this.reviewDate}}
                         </div>
                     </div>
                     <div class="review-content">
                         {{this.review}}
+                    </div>
+                    <div class="movie-rate-container">
+                        <div class="movie-rate" lay-options="{value:{{this.rating}}  }"></div>
                     </div>
                 </div>
             </li>

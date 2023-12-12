@@ -4,6 +4,7 @@ import { moviesData, reviewsData, usersData } from '../data/index.js';
 import { isNumberString } from 'class-validator';
 import helperMethods, { formatDate } from '../helpers.js'
 import { reviews } from '../config/mongoCollections.js';
+import { getDurationStr } from '../data/movies.js';
 /*home page */
 router
     .route('/')
@@ -27,31 +28,60 @@ router
     .get(async (req, res) => {
         const user = req.session.user;
         try {
-            const movie = await moviesData.getMovieById(req.params.id);
+            let movie = await moviesData.getMovieById(req.params.id);
             if (!movie) {
                 return res.status(404).render({
                     user: user,
                     error: 'Movie not found.'
                 })
             }
-
+            movie = {
+                ...movie,
+                duration: getDurationStr(movie.duration),
+                dateReleased: formatDate(movie.dateReleased, 'dd/MM/yyyy'),
+            }
             //get all reviews 
             const reviewsCollection = await reviews()
-            let allReviews = (await reviewsCollection.find({
-                movieId: req.params.id
-            }).toArray()).map(m => ({
-                ...m,
-                reviewDate: formatDate(m.reviewDate, 'dd/MM/yyyy hh:mm:ss')
-            }))
-            //the review of current login user
-            let currentUserReview = allReviews.find(m => m.userId === user?.userId)
-
-            return res.render('detail', {
-                user: user,
-                movie: movie,
-                reviews: allReviews,
-                myReview: currentUserReview
-            });
+            try {
+                let query = await reviewsCollection.aggregate([
+                    {
+                        $match: {
+                            movieId: req.params.id,
+                        }
+                    }, {
+                        $project: {
+                            userId: { $toObjectId: "$userId" },
+                            review: 1,
+                            reviewDate: 1,
+                            movieId: 1,
+                            rating: 1
+                        }
+                    }, {
+                        $lookup: {
+                            from: 'users',
+                            localField: 'userId',
+                            foreignField: '_id',
+                            as: 'user_info'
+                        }
+                    }])
+                let allReviews = (await query.toArray()).map(m => ({
+                    review: m.review,
+                    reviewDate: formatDate(m.reviewDate, 'dd/MM/yyyy hh:mm:ss'),
+                    username: m.user_info[0]?.username ?? '',
+                    rating: m.rating,
+                    userId: m.userId.toString()
+                }))
+                //the review of current login user
+                let currentUserReview = allReviews.find(m => m.userId === user?.userId)
+                return res.render('detail', {
+                    user: user,
+                    movie: movie,
+                    reviews: allReviews,
+                    myReview: currentUserReview
+                });
+            } catch (e) {
+                console.log(e)
+            }
         }
         catch (e) {
             return res.status(400).render('error', {

@@ -10,6 +10,10 @@ $(() => {
                     id: 0
                 },
                 {
+                    title: 'My Reviews',
+                    id: 2
+                },
+                {
                     title: 'Logout',
                     id: 1
                 }],
@@ -19,6 +23,9 @@ $(() => {
                 }
                 else if (obj.id === 1) {
                     window.location.href = '/logout'
+                }
+                else if (obj.id === 2) {
+                    window.location.href = '/reviews'
                 }
             }
         });
@@ -31,6 +38,9 @@ $(() => {
             data: [{
                 title: 'Home Page',
                 id: 0
+            }, {
+                title: 'My Reviews',
+                id: 3
             }, {
                 title: 'Logout',
                 id: 1
@@ -46,6 +56,8 @@ $(() => {
                     window.location.href = '/logout'
                 } else if (obj.id === 2) {
                     window.location.href = '/admin/publish'
+                } else if (obj.id === 3) {
+                    window.location.href = '/reviews'
                 }
             }
         });

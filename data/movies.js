@@ -40,7 +40,7 @@ const createMovie = async (movieInfo) => {
 
   return { success: true }
 }
-function getDurationStr(duration) {
+export function getDurationStr(duration) {
   if (duration < 60) {
     return duration.toFixed(0) + ' Seconds'
   }
