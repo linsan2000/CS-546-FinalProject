@@ -63,7 +63,7 @@ export function getDurationStr(duration) {
  * @returns 
  */
 const getMoviePageList = async ({ page, limit, q = '' }) => {
-  let reg = new RegExp(".*" + q + ".*$")
+  let reg = new RegExp(".*" + q + ".*$", "i")
   let movieList = await moviesCollection.find({
     $or: [
       {

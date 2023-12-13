@@ -30,6 +30,7 @@ async function preloadData() {
       await moviesData.createMovie(element)
     }
     await closeConnection();
+    console.log('Data Preloaded Successfully');
     process.exit();
   } catch (error) {
     console.log(`Got Error When Preloading Data: ${error.message}`);
