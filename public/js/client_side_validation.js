@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 } else if (!isValidEmailAddress(emailAddress)) {
                     throw 'Invalid email address.';
                 } else if (!isValidPassword(password)) {
-                    throw 'Invalid password. There needs to be at least one uppercase character, there has to be at least one number and there has to be at least one special character, and should be a minimum of 8 characters long';
+                    throw 'Invalid password. There needs to be at least one lowercase character, at least one uppercase character, there has to be at least one number and there has to be at least one special character, and should be a minimum of 8 characters long';
                 } else if (password !== confirmPassword) {
                     throw 'Passwords do not match.';
                 } else if (!isValidRole(role)) {
