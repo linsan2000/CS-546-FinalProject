@@ -42,7 +42,7 @@ form.verify({
             return 'password is required.'
         }
         if (!(isValidPassword(value))) {
-            return ' There needs to be at least one uppercase character, there has to be at least one number and there has to be at least one special character, and should be a minimum of 8 characters long.'
+            return ' There needs to be at least one lowercase character, at least one uppercase character, there has to be at least one number and there has to be at least one special character, and should be a minimum of 8 characters long.'
         }
     },
     password2: function (value, elem) {
