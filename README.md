@@ -1,4 +1,6 @@
 # CS-546-FinalProject
+# Movie Rating Review Website
+
 
 Final Project for CS-546: Web Programming
 
