@@ -11,6 +11,9 @@ Final Project for CS-546: Web Programming
 * Hai Yuan
 * Zhen Zhang
 
+# How to run?
+1. `npm run init`, run the seed script to populate DB
+2. `npm start`, run the project on the localhost:3000
 
 # Brief Description:
 This project is a simplified movie database platform. Users can rate and post reviews for movies.
